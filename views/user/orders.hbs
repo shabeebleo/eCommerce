@@ -1,0 +1,78 @@
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Shopping Cart</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="category.html">Cart</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Pincode</th>
+                            <th scope="col">Mobile</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Payment</th>
+                            <th scope="col">status</th>
+                            <th scope="col">Order Manage</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {{#each orders}}
+                        <tr>
+                            {{!-- {{#each this.product}} when it was array --}}
+                            <td>
+                                <h5>{{this.date}}</h5>
+                            </td>
+                            <td>
+                                <h5>{{this.deliveryDetails.BuidlingName}},{{this.deliveryDetails.StreetName}}</h5>
+                            </td>
+                            {{!-- {{/each}} --}}
+                            <td>
+                                <h5>{{this.deliveryDetails.Pincode}}</h5>
+                            </td>
+                            <td>
+                                {{this.deliveryDetails.Mobile}}
+                            </td>
+                            <td>
+                                <h5>{{this.totalAmount}}
+                            </td>
+                            <td>
+                                <h5>{{this.Paymentmethod}}</h5>
+
+                            </td>
+                            <td>
+                                <h5>{{this.status}}</h5>
+                            </td>
+                            <td>
+                                {{#if this.deliveredOrder}}
+                                <a href="/returnStatus/{{this._id}}" class="btn btn-danger">Return</a>
+                                {{else}}
+                                <a href="/cancelStatus/{{this._id}}" class="btn btn-danger">Cancel</a>
+                                {{/if}}
+                            <td>
+                                <a href="/viewProducts/{{this._id}}" class="btn btn-info">view Products</a>
+                            </td>
+
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,66 @@
+<body>
+    <div id="right-panel" class="right-panel">
+        <section class="cart_area">
+            <div class="container">
+                <div class="cart_inner">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Product Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each OrderedProducts}}
+                                <tr>
+                                    {{!-- {{#each this.product}} when it was array --}}
+
+                                    <td>
+                                        <div class="media">
+                                            <div class="d-flex ">
+                                                <img src="/product-images/{{this.product.images.[0]}}" alt=""
+                                                    style="width: 80px;height: 80px;">
+                                            </div>
+                                            <div class="media-body">
+                                                <p>{{this.product.Product}}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5>{{this.product.Price}}</h5>
+                                    </td>
+                                    <td>
+                                        <h5>{{this.quantity}}</h5>
+                                    </td>
+
+
+                                    <td>
+                                        <h5><span id="proTotal{{this.product._id}}">{{this.proTotal}}</span></h5>
+                                    </td>
+                                </tr>
+                                 {{/each}}
+                            
+
+                                <tr class="bottom_button">
+                                    <td>
+                                        <a href="/admin/orders" class="btn btn-success">view Orders</a>
+                                    </td>
+                                    <td></td>
+                                      <td></td>
+                                    <td>
+   <h6>Total Amount:Rs.{{totalAmount}}</h6>
+                                    </td>
+                                 
+                                </tr>
+                              
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
