@@ -3,8 +3,8 @@ var userHelpers = require('../helpers/user-helpers')
 var twilioHelpers = require('../helpers/twilio-helper')
 const { response } = require('express')
 const { UserBindingContext } = require('twilio/lib/rest/chat/v2/service/user/userBinding')
-var adminHelpers = require('../helpers/admin-helpers');
-
+// var adminHelpers = require('../helpers/admin-helpers');
+let allFilteredProducts
 
 module.exports = {
   getSignUp: function (req, res) {
@@ -122,18 +122,31 @@ module.exports = {
   },
 
 
+  searchProduct: async (req, res, next) => {
+    try {
+      let key = req.body.key;
+      allFilteredProducts = await userHelpers.searchProducts(key)
+      res.redirect('/shopcategory')
+    } catch (error) {
+      next(error)
+    }
+
+  },
+
+
 
   getProductDetails: async (req, res) => {
-
     const userDetails = req.session.user
-    var wishlistCount = await userHelpers.getWishlistCount(req.session.user._id)
+    if (userDetails) {
+
+      var wishlistCount = await userHelpers.getWishlistCount(req.session.user._id)
+    }
     userHelpers.proDetails(req.params.id).then((productDetails) => {
       res.render('user/productDetails', { productDetails, user: true, wishlistCount, cartCount: req.session.cartVolume, userDetails })
     })
   },
 
   getShopCategory: async (req, res) => {
-
     try {
       if (req.session.user) {
         var cartCount = await userHelpers.getCartCount(req.session.user._id)
@@ -141,14 +154,18 @@ module.exports = {
         var wishlistCount = await userHelpers.getWishlistCount(req.session.user._id)
       }
       const allCategories = await userHelpers.getAllCat()
-      const allProducts = await userHelpers.getAllProducts()
-      res.render('user/shopCategory', { user: true, allProducts, cartCount, wishlistCount, userDetails: req.session.user, allCategories })
+      res.render('user/shopCategory', { user: true, allProducts: allFilteredProducts, cartCount, wishlistCount, userDetails: req.session.user, allCategories })
 
     } catch (error) {
       console.log(error);
       res.redirect('/')
     }
 
+  },
+
+  shopALL: async (req, res) => {
+    allFilteredProducts = await userHelpers.getAllProducts()
+    res.redirect('/shopCategory')
   },
 
   getMenCategory: (req, res) => {
@@ -211,6 +228,7 @@ module.exports = {
       let products = await userHelpers.getCartProducts(req.session.user._id)
       if (products.length > 0) {
         totalValue = await userHelpers.getTotalAmount(req.session.user._id)
+        // totalValueAfterCoupon=await userHelpers.totalValueAfterCoupon(req.session.user._id)
       } else {
         totalValue = 0
       }
@@ -281,6 +299,7 @@ module.exports = {
       if (req.session.user) {
         let wishlistCount = await userHelpers.getWishlistCount(req.session.user._id)
         let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
+
         let products = await userHelpers.getCartProducts(req.session.user._id)
         var cartCount = await userHelpers.getCartCount(req.session.user._id)
         let userAddress = await userHelpers.getAllAddress(req.session.user._id)
@@ -295,18 +314,29 @@ module.exports = {
   },
 
   postCheckout: async (req, res) => {
+
+    console.log(req.body, "orderDetailsssssssssss");
+
+    let couponName = req.body.couponName
+
+
+    console.log(req.body.couponName, "ooooohha");
+    let order = req.body
+    console.log(order, "jjjjjcontroletr");
     products = await userHelpers.getCartProductList(req.body.userId)
     totalPrice = await userHelpers.getTotalAmount(req.body.userId)
-    userHelpers.placeOrder(req.body, products, totalPrice).then((orderId) => {
+    let grandTotal=order.grandTotal
+    grandTotal=parseInt(grandTotal)
+
+    userHelpers.placeOrder(order, products, couponName, totalPrice).then((orderId) => {
       if (req.body['Payment-method'] === 'COD') {
         res.json({ codSuccess: true })
       } else {
-        userHelpers.generateRazorpay(orderId, totalPrice).then((response) => {
+        userHelpers.generateRazorpay(orderId, grandTotal).then((response) => {
           res.json(response)
         })
       }
     })
-
 
   },
 
@@ -334,7 +364,7 @@ module.exports = {
     var cartCount = await userHelpers.getCartCount(req.session.user._id)
     let wishlistCount = await userHelpers.getWishlistCount(req.session.user._id)
     userHelpers.getUserOrders(req.session.user._id).then((orders) => {
-    res.render('user/orders', { user: true, wishlistCount, orders, cartCount, userDetails: req.session.user })
+      res.render('user/orders', { user: true, wishlistCount, orders, cartCount, userDetails: req.session.user })
     })
   },
 
@@ -360,5 +390,71 @@ module.exports = {
       res.render('user/viewOrderedProducts', { user: true, wishlistCount, products, totalOrderAmount, cartCount, userDetails: req.session.user })
 
     })
+  },
+
+  postapplyCoupon: (req, res) => {
+    console.log(req.body, "hai");
+    let coupon = req.body.coupon
+    let userId = req.body.userId
+    console.log(coupon, userId, "llooll");
+    userHelpers.postapplyCoupon(coupon, userId).then((response) => {
+
+      if (response.coupon) {
+        req.session.coupon = response
+
+      }
+
+
+
+      console.log(req.session.coupon, "coup details");
+      console.log(response, "kkkpkk");
+      res.json(response)
+    })
+  },
+
+  getInvoice: async (req, res) => {
+    let order = await userHelpers.getOrder(req.params.id)
+    let products = await userHelpers.getOrderProducts(req.params.id)
+    res.render('user/invoice', { order, products })
+  },
+
+  sortAndFilter: (req, res) => {
+    const detail = req.body;
+    console.log(detail, "detail");
+    const price = parseInt(detail.price)
+    const filter = [];
+    for (i of detail.categoryName) {
+      filter.push({ 'Categories': i })
+    }
+    console.log(filter, 'filter');
+
+    userHelpers.filteredProducts(filter, price).then((response) => {
+      allFilteredProducts = response;
+      console.log(allFilteredProducts, "allFilteredProductsController");
+      if (detail.sort == 'Sort') {
+        res.json({ status: true });
+      }
+      if (detail.sort == 'lh') {
+        allFilteredProducts.sort((a, b) => a.Price - b.Price)
+        res.json({ status: true });
+      }
+      if (detail.sort == 'hl') {
+        allFilteredProducts.sort((a, b) => b.Price - a.Price)
+        res.json({ status: true });
+      }
+      if (detail.sort == 'az') {
+        allFilteredProducts.sort(function (a, b) {
+          return (a.Brand < b.Brand) ? -1 : (a.Brand > b.Brand) ? 1 : 0;
+        })
+        res.json({ status: true });
+      }
+      if (detail.sort == 'za') {
+        allFilteredProducts.sort(function (a, b) {
+          return (a.Brand > b.Brand) ? -1 : (a.Brand < b.Brand) ? 1 : 0;
+        })
+        res.json({ status: true });
+      }
+    })
   }
 }
+

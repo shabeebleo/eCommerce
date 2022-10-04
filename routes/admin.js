@@ -38,6 +38,11 @@ router.get('/orderList',adminController.getPlacedOrders)
 router.post('/delivery-changeStatus',adminController.changeOrderStatus)
 // router.get('/orderList',adminController.getPlacedOrderedProducts)
 
+//.................coupons..........//
+router.get('/coupons',adminController.getCoupons)
+router.post('/coupons',adminController.postCoupons)
+router.get('/deleteCoupons/:id',adminController.delcoupon)
+
 
 // ..............user list .........//
 router.get('/users',adminController.getUsers)

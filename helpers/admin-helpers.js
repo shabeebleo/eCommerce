@@ -265,7 +265,7 @@ module.exports = {
 
                 db.get().collection(collections.ORDER_COLLECTION).updateOne({ _id: objectId(orderId) },
                     {
-                        $set: { status: statusUpdate }
+                        $set: { status: statusUpdate, placePackSHipOrder:true }
                     })
 
                 resolve({ updated: true })
@@ -273,6 +273,23 @@ module.exports = {
             }
 
         })
+
+    },
+    postCoupons:(couponDetails)=>{
+        return new Promise((resolve, reject) => {
+            couponDetails.reduction=parseInt(couponDetails.reduction)               
+            db.get().collection(collections.COUPON_COLLECTION).insertOne(couponDetails)
+        })
+    },
+     getAllcoupons: () => {
+        return new Promise(async (resolve, reject) => {
+            let allCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({}).toArray()
+
+            resolve(allCoupons)
+        })
+    },
+    delcoupon: (coupId) => {
+        db.get().collection(collections.COUPON_COLLECTION).deleteOne({ _id: objectId(coupId) })
 
     }
 

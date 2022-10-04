@@ -33,7 +33,9 @@ router.post('/deliveryAddress',userController.getDeliveryAddress)
 
 //  user shop   //
 router.get('/shopCategory', userController.getShopCategory)
-
+router.get('/shopALL',userController.shopALL)
+router.post('/search-products',userController.searchProduct)
+router.post('/products/filter',userController.sortAndFilter)
 //  product details  //
 router.get('/productDetails/:id', userController.getProductDetails)
 
@@ -66,20 +68,18 @@ router.post('/change-product-quantity',userController.postChangeProductQuantity)
 //checkOut Page//
 router.get('/place-order',userController.getCheckOut)
 router.post('/place-order',userController.postCheckout)
-
 router.post('/verify-payment',userController.postVerifyPayment)
+router.post('/applyCoupon',userController.postapplyCoupon)
 
-// router.use(trial)
+
 //    order related   //
 
 router.get('/orderPlaced', userController.getOrderplaced)
-
 router.get('/orders',userController.getviewOrders)
-
 router.get('/returnStatus/:id',userController.returnStatus)
 router.get('/cancelStatus/:id',userController.cancelStatus)
-
 router.get('/viewProducts/:id',userController.getViewproducts)
+router.get('/invoice/:id',userController.getInvoice)
         
 
 

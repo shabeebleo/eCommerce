@@ -157,5 +157,24 @@ module.exports = {
   getDeleteCategory: (req, res) => {
     adminHelpers.delCategory(req.params.id)
     res.redirect('/admin/categories')
+  },
+
+  getCoupons:(req,res)=>{
+    adminHelpers.getAllcoupons().then((allCoupons)=>{
+      res.render('admin/coupons',{ layout: 'admin-layout',allCoupons, admin: true})
+
+    })
+  },
+
+  postCoupons:(req,res)=>{
+    adminHelpers. postCoupons(req.body)
+    res.redirect('/admin/coupons')
+  },
+
+  delcoupon:(req,res)=>{
+    let coupId=req.params.id
+    adminHelpers.delcoupon(coupId)
+    res.redirect('/admin/coupons')
   }
+
 }

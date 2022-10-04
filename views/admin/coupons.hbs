@@ -1,0 +1,64 @@
+<div id="right-panel" class="right-panel">
+    <div class="content">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Coupon</strong> Form
+                        </div>
+                        <div class="card-body card-block">
+
+                            <form action="/admin/coupons" method="post" class="">
+                               
+                                    <input type="text" id="nf-email" name="coupon" placeholder=" Coupon name"
+                                        class="form-control">
+                                        <input type="number" id="nf-email" name="reduction" placeholder=" Reduction"
+                                        class="form-control">
+                                        <input type="date" id="nf-email" name="expiryDate" placeholder=" ExpiryDate"
+                                        class="form-control">
+                               
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-dot-circle-o"></i> Add Coupon
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Basic Table</strong>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Index</th>
+                                        <th scope="col">coupon</th>
+                                        <th> coupon reduction</th>
+                                        <th> coupon expiry</th>
+                                        <th>deleting coupons</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each allCoupons}}
+                                    <tr>
+                                        <th scope="row">{{inc @index}}</th>
+                                        <td>{{this.coupon}}</td>
+                                        <td>{{this.reduction}}</td>
+                                        <td>{{this.expiryDate}}</td>
+                                        <td><a href="/admin/deleteCoupons/{{this._id}}"
+                                                class="btn btn-danger">Delete</a></td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -23,10 +23,13 @@
                             <th scope="col">Address</th>
                             <th scope="col">Pincode</th>
                             <th scope="col">Mobile</th>
-                            <th scope="col">Amount</th>
+                            <th scope="col">Sub Total</th>
+                            <th scope="col">Discount</th>
+                            <th scope="col">Grand Total</th>
                             <th scope="col">Payment</th>
                             <th scope="col">status</th>
                             <th scope="col">Order Manage</th>
+                            <th scope="col">Invoice</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -51,6 +54,12 @@
                             <td>
                                 <h5>{{this.totalAmount}}
                             </td>
+                             <td>
+                                <h5>{{this.Discount}}
+                            </td>
+                             <td>
+                                <h5>{{this.GrandTotal}}
+                            </td>
                             <td>
                                 <h5>{{this.Paymentmethod}}</h5>
 
@@ -60,10 +69,29 @@
                             </td>
                             <td>
                                 {{#if this.deliveredOrder}}
-                                <a href="/returnStatus/{{this._id}}" class="btn btn-danger">Return</a>
+                                <a href="/returnStatus/{{this._id}}" class="btn btn-danger" style="width: 80px;">Return</a>
+                             
                                 {{else}}
-                                <a href="/cancelStatus/{{this._id}}" class="btn btn-danger">Cancel</a>
+                                {{#if this.placePackSHipOrder}}
+                                <a href="/cancelStatus/{{this._id}}" class="btn btn-warning" style="width: 80px;">Cancel</a>
+                             
+                                {{else}}
+                                <a href="/shopCategory" class="btn  btn-info" style="width: 80px;">shop</a>
                                 {{/if}}
+                                {{/if}}
+                                <td>
+                                   {{#if this.deliveredOrder}}
+                              
+                                <a href="/invoice/{{this._id}}" class="btn btn-secondary" style="width: 80px;">Invoice</a>
+                                {{else}}
+                                {{#if this.placePackSHipOrder}}
+                              
+                                 <a href="/invoice/{{this._id}}" class="btn btn-secondary" style="width: 80px;">Invoice</a>
+                                {{else}}
+                                <a href="/shopCategory" class="btn  btn-info" style="width: 80px;">shop</a>
+                                {{/if}}
+                                {{/if}}  
+                                </td>
                             <td>
                                 <a href="/viewProducts/{{this._id}}" class="btn btn-info">view Products</a>
                             </td>

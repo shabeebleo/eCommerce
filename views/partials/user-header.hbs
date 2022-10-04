@@ -4,7 +4,8 @@
 		<nav class="navbar navbar-expand-lg navbar-light main_box ">
 			<div class="container">
 				<!-- Brand and toggle get grouped for better mobile display -->
-				<a class="navbar-brand logo_h" href="/"><img height="90px" width="auto" src="/user/img/logo.png" alt="IMG"></a>
+				<a class="navbar-brand logo_h" href="/"><img height="90px" width="auto" src="/user/img/logo.png"
+						alt="IMG"></a>
 				<h1><a class="navbar-brand logo_h" href="/">footlocker</a></h1>
 				<button class="navbar-toggler" type="button" data-toggle="collapse"
 					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -17,7 +18,7 @@
 				<div class="collapse navbar-collapse offset " id="navbarSupportedContent">
 					<ul class="nav navbar-nav menu_nav ml-auto">
 						<li class="nav-item "><a class="nav-link" href="/">Home</a></li>
-						<li class="nav-item "><a class="nav-link" href="/shopCategory">Shop</a></li>
+						<li class="nav-item "><a class="nav-link" href="/shopALL">Shop</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
 						{{!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
 						<li class="nav-item submenu dropdown">
@@ -32,13 +33,14 @@
 
 								<li class="nav-item"><a class="nav-link" href="/login">LogIn</a></li>
 								{{/if}}
-							
+
 							</ul>
 						</li>
 					</ul>
 					{{#if userDetails}}
 					<ul class="nav navbar-nav navbar-right">
-						<li class="nav-item"><a href="/cart/{{userDetails._id}}" class="cart"><span class="ti-bag  " id="cart-count" >{{cartCount}}</span></a></li>
+						<li class="nav-item"><a href="/cart/{{userDetails._id}}" class="cart"><span class="ti-bag  "
+									id="cart-count">{{cartCount}}</span></a></li>
 					</ul>
 					{{else}}
 					<ul class="nav navbar-nav navbar-right">
@@ -47,7 +49,8 @@
 					{{/if}}
 					{{#if userDetails}}
 					<ul class="nav navbar-nav navbar-right">
-						<li class="nav-item"><a href="/wishlist/{{userDetails._id}}" class="wishlist"><span class="ti-heart "  id="wishlist-count" >{{wishlistCount}}</span></a></li>
+						<li class="nav-item"><a href="/wishlist/{{userDetails._id}}" class="wishlist"><span
+									class="ti-heart " id="wishlist-count">{{wishlistCount}}</span></a></li>
 					</ul>
 					{{else}}
 					<ul class="nav navbar-nav navbar-right">
@@ -62,6 +65,15 @@
 				</div>
 			</div>
 		</nav>
+	</div>
+	<div class="search_input" id="search_input_box">
+		<div class="container">
+			<form action="/search-products" method="post" class="d-flex justify-content-between">
+				<input type="text" class="form-control" id="searchKey" name="key" placeholder="Search Here">
+				<button type="submit" class="btn"></button>
+				<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+			</form>
+		</div>
 	</div>
 </header>
 <!-- End Header Area -->
