@@ -88,9 +88,10 @@
 
                                 <input type="text" id="couponNamess" name="couponName" value="" hidden>
                             </div>
-                             <div>
+                            <div>
 
-                                <input type="text" id="grandTotal" name="grandTotal" value="" hidden>
+                                <input type="text" id="grandTotal" name="grandTotal" value="{{totalValue.total}}"
+                                    hidden>
                             </div>
                             <div>
 
@@ -110,12 +111,12 @@
                                             <span class="last">Rs.{{this.proTotal}}</span></a></li>
                                     {{/each }}
                                 </ul>
-
                                 <ul class="list list_2">
                                     <li><a href="#"> Coupon applied<span id="couponNames">Nil</span></a></li>
                                     <li><a href="#"> Discount <span id="discount">0</span></a></li>
                                     <li><a href="#">Sub Total <span id="subTotal">{{totalValue.total}}</span></a></li>
-                                    <li><a href="#">Grand Total <span id="GrandTotal">{{totalValue.total}}</span></a></li>
+                                    <li><a href="#">Grand Total <span id="GrandTotal">{{totalValue.total}}</span></a>
+                                    </li>
 
                                 </ul>
                                 <div class="payment_item">
@@ -134,7 +135,6 @@
                                     </div>
 
                                 </div>
-
                                 <button class="primary-btn" onclick="couponUse('{{userDetails._id}}')"
                                     type="submit">Confirm </button>
                             </div>
@@ -165,10 +165,7 @@
                                     <button onclick="deliveryAddress('{{../userDetails._id}}','{{this.addId}}')"
                                         data-toggle="modal" data-target="#editAddress" class="btn btn-info">Add
                                         Address</button>
-
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -177,17 +174,10 @@
             </div>
 
         </div>
-
-
-
-
     </section>
     <!--================End Checkout Area =================-->
-
     <script>
-
         function deliveryAddress(userId, addressId) {
-
             $.ajax({
                 url: '/deliveryAddress',
                 data: {
@@ -208,9 +198,6 @@
                     document.getElementById('state').value = response.state
                     document.getElementById('pincode').value = response.pincode
                     document.getElementById('addressId').value = response.addId
-                    
-
-
                 }
             })
         }
@@ -231,7 +218,6 @@
                 })
             })
         })
-
 
         function rezorpayPayment(order) {
             var options = {
@@ -283,15 +269,11 @@
 
         }
 
-
         function applyCoupon() {
-            console.log("lolopp")
+
             var couponCode = document.getElementById('couponCode').value
-            console.log(couponCode, "lolo")
             var userId = document.getElementById('userId').value
-            console.log("lol")
             var subtotal = document.getElementById('subTotal').innerHTML
-            console.log(subtotal, "qwqwqwqwqwq")
             $.ajax({
                 url: '/applyCoupon',
                 method: 'post',
@@ -300,18 +282,14 @@
                     userId: userId
                 },
                 success: (response) => {
-                    
                     if (response.expired) {
                         alert("sorry coupon expired")
                     } else if (response.used) {
                         alert("already used")
                     } else if (response.notAvailable) {
-                          console.log(response, "invalid")
+                        console.log(response, "invalid")
                         alert("invalid coupon")
                     } else {
-
-                        console.log(response, "ttttprrrrtttt")
-
                         var discount = response.reduction
                         console.log(discount, "ttttprrrrptttt")
                         var GrandTotal = subtotal - discount
@@ -320,9 +298,9 @@
                         document.getElementById('GrandTotal').innerHTML = GrandTotal
                         document.getElementById('couponNamess').value = response.coupon
                         document.getElementById('couponNames').innerHTML = response.coupon
-                        document.getElementById('grandTotal').value=GrandTotal
-                        document.getElementById('Discount').value=discount
- alert("Hurray coupon applied")
+                        document.getElementById('grandTotal').value = GrandTotal
+                        document.getElementById('Discount').value = discount
+                        alert("Hurray coupon applied")
                         console.log(response, "ttttrrrr")
                     }
                 }

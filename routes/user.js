@@ -69,6 +69,7 @@ router.post('/change-product-quantity',userController.postChangeProductQuantity)
 router.get('/place-order',userController.getCheckOut)
 router.post('/place-order',userController.postCheckout)
 router.post('/verify-payment',userController.postVerifyPayment)
+
 router.post('/applyCoupon',userController.postapplyCoupon)
 
 

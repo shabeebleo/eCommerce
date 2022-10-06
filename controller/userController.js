@@ -224,7 +224,6 @@ module.exports = {
     if (userDetails) {
       var wishlistCount = await userHelpers.getWishlistCount(req.session.user._id)
       let cartCount = await userHelpers.getCartCount(req.session.user._id)
-
       let products = await userHelpers.getCartProducts(req.session.user._id)
       if (products.length > 0) {
         totalValue = await userHelpers.getTotalAmount(req.session.user._id)
@@ -314,12 +313,8 @@ module.exports = {
   },
 
   postCheckout: async (req, res) => {
-
     console.log(req.body, "orderDetailsssssssssss");
-
     let couponName = req.body.couponName
-
-
     console.log(req.body.couponName, "ooooohha");
     let order = req.body
     console.log(order, "jjjjjcontroletr");

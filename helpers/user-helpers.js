@@ -161,7 +161,6 @@ module.exports = {
                 let cartObj = {
                     user: objectId(userId),
                     products: [proObj]
-                    // products: [objectId(proId)]
                 }
                 db.get().collection(collections.CART_COLLECTION).insertOne(cartObj).then((response) => {
                     resolve()
@@ -519,10 +518,6 @@ module.exports = {
         })
     },
 
-
-
-
-
     postProTotal: async (userId, proId) => {
         console.log(proId, 'proId');
         return new Promise(async (resolve, reject) => {
@@ -570,7 +565,6 @@ module.exports = {
                             proTotall: { $multiply: ['$quantity', { $toInt: '$product.Price' }] }
                         }
                     }
-
 
                 ]).toArray()
                 console.log(proTotal[0], "proTotal user-help");
@@ -633,62 +627,6 @@ module.exports = {
         })
     },
 
-
-
-
-
-    // getTotalOrderAmount: (orderId) => {
-    //     console.log(userId, 'totalamounti');
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-    //             let total = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
-    //                 {
-    //                     $match: { _id: objectId(userId) }
-    //                 },
-    //                 {
-    //                     $unwind: '$products'
-    //                 },
-    //                 {
-    //                     $project: {
-    //                         item: '$products.item',
-    //                         quantity: '$products.quantity'
-    //                     }
-    //                 },
-    //                 {
-    //                     $lookup: {
-    //                         from: collections.PRODUCT_COLLECTION,
-    //                         localField: 'item',
-    //                         foreignField: '_id',
-    //                         as: 'product'
-    //                     }
-    //                 },
-    //                 {
-    //                     $project: {
-    //                         item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
-
-    //                     }
-    //                 },
-
-    //                 {
-    //                     $group: {
-    //                         _id: null,
-    //                         total: { $sum: { $multiply: ['$quantity', { $toInt: '$product.Price' }] } }
-    //                     }
-    //                 }
-
-
-
-    //             ]).toArray()
-    //             console.log(total[0], 'shabeeeeb');
-    //             resolve(total[0])
-
-    //         } catch (error) {
-    //             reject(error)
-    //         }
-    //     })
-    // },
-
-
     getCartProductList: (userId) => {
         console.log(userId);
         return new Promise(async (resolve, reject) => {
@@ -724,7 +662,7 @@ module.exports = {
                 products: products,
                 totalAmount: total.total,
                 status: status,
-                date: new Date().toDateString(),
+                date: new Date(),
                 placePackSHipOrder: true,
                 GrandTotal: GrandTotal,
                 Discount: discount
@@ -892,7 +830,6 @@ module.exports = {
     postapplyCoupon: (coupon, userId) => {
         return new Promise(async (resolve, reject) => {
             let result = await db.get().collection(collections.COUPON_COLLECTION).findOne({ coupon: coupon })
-            console.log(result, "result");
             if (result) {
                 var d = new Date()
                 let str = d.toJSON().slice(0, 10)
@@ -904,6 +841,7 @@ module.exports = {
                     if (user) {
                         console.log("used");
                         resolve({ used: true })
+                    
                     } else {
 
                         resolve(result)
@@ -915,6 +853,7 @@ module.exports = {
             }
         })
     },
+
     getOrder: (orderId) => {
         return new Promise(async (resolve, reject) => {
             let orderDetails = await db.get().collection(collections.ORDER_COLLECTION).findOne({ _id: objectId(orderId) })
@@ -936,12 +875,12 @@ module.exports = {
                         $match: {
                             Price: { $lt: price }
                         }
-                    
+
                     }
                 ]).toArray()
                     .then((products) => {
 
-                        console.log(products,'products')
+                        console.log(products, 'products')
                         resolve(products)
                     })
             } else {

@@ -21,7 +21,32 @@ module.exports = {
   },
 
   getAdminHome: function (req, res) {
-    res.render('admin/admin-home', { layout: 'admin-layout', admin: true });
+    adminHelpers.getOverAllSale().then((Revenue)=>{
+      res.render('admin/admin-home', { layout: 'admin-layout',Revenue, admin: true });
+
+    })
+  },
+
+  TotalRevenueGraph: (req, res) => {
+    adminHelpers.getTotalRevenue().then((response) => {
+      res.json(response)
+    })
+  },
+
+  TotalRevenuePie: (req, res) => {
+    adminHelpers.getTotalRevenuePie().then((response) => {
+      res.json(response)
+    })
+
+  },
+
+  monthlySalesLineChart: async(req, res) => {
+    console.log("monthlySalesLineChartController");
+  let getOverAllSale= await adminHelpers.getOverAllSale()
+    adminHelpers.getMonthlySalesLineChart(getOverAllSale).then((response) => {
+      res.json(response)
+    })
+  
   },
 
   getOrders: function (req, res) {
@@ -41,7 +66,7 @@ module.exports = {
   },
 
   changeOrderStatus: (req, res) => {
-   console.log(req.body, "pppppppppttttttpppppppp");
+    console.log(req.body, "pppppppppttttttpppppppp");
     let statusUpdate = req.body.status
     let orderId = req.body.orderId
     adminHelpers.changeOrderStatus(orderId, statusUpdate).then((response) => {
@@ -159,20 +184,20 @@ module.exports = {
     res.redirect('/admin/categories')
   },
 
-  getCoupons:(req,res)=>{
-    adminHelpers.getAllcoupons().then((allCoupons)=>{
-      res.render('admin/coupons',{ layout: 'admin-layout',allCoupons, admin: true})
+  getCoupons: (req, res) => {
+    adminHelpers.getAllcoupons().then((allCoupons) => {
+      res.render('admin/coupons', { layout: 'admin-layout', allCoupons, admin: true })
 
     })
   },
 
-  postCoupons:(req,res)=>{
-    adminHelpers. postCoupons(req.body)
+  postCoupons: (req, res) => {
+    adminHelpers.postCoupons(req.body)
     res.redirect('/admin/coupons')
   },
 
-  delcoupon:(req,res)=>{
-    let coupId=req.params.id
+  delcoupon: (req, res) => {
+    let coupId = req.params.id
     adminHelpers.delcoupon(coupId)
     res.redirect('/admin/coupons')
   }

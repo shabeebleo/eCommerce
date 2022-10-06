@@ -30,6 +30,9 @@ router.post('/',adminController.postLoginpage)
 
 // ..............homepage.........//
 router.get('/adminHome',adminController.getAdminHome);
+router.post('/total-revenue',adminController.TotalRevenueGraph)
+router.post('/onlineCod',adminController.TotalRevenuePie)
+router.post('/monthlySales',adminController.monthlySalesLineChart)
 
 // ..............order........//
 router.get('/orders',adminController.getOrders)
