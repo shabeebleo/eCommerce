@@ -44,7 +44,7 @@
                                             <th>Amount</th>
                                             <th>Status</th>
                                             <th>Status Updating</th>
-                                    
+
                                             <th>Products</th>
                                         </tr>
                                     </thead>
@@ -66,9 +66,25 @@
                                                     <select name="status" id="select" class="form-control"
                                                         onchange="values(this.value,'{{this._id}}')" required>
                                                         <option value="">choose</option>
+                                                        
+                                                        {{#if (eqPlaced this.status)}}   
+                                                        <option value="packed">packed</option>                                                    
                                                         <option value="shipped">shipped</option>
-                                                        <option value="packed">packed</option>
                                                         <option value="delivered">delivered</option>
+                                                        {{else}}
+                                                        {{#if (eqPacked this.status)}}
+                                                        <option value="shipped">shipped</option>
+                                                        <option value="delivered">delivered</option>
+                                                        {{else}}
+                                                        {{#if (eqShipped this.status)}}                                                                                                              
+                                                        <option value="delivered">delivered</option>
+                                                        {{else}}
+                                                         {{#if (eqPending this.status)}}                                                                                                              
+                                                        <option value="pending">pending</option>                                                       
+                                                        {{/if}}
+                                                        {{/if}}
+                                                        {{/if}}
+                                                        {{/if}}
                                                     </select>
 
                                             </td>
@@ -104,7 +120,7 @@
                     },
                     success: (response) => {
                         if (response.updated) {
-                            alert('status Updated')
+                            alert('status Updated', 'success')
                             location.reload()
                         }
 

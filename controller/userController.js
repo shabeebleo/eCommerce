@@ -3,6 +3,7 @@ var userHelpers = require('../helpers/user-helpers')
 var twilioHelpers = require('../helpers/twilio-helper')
 const { response } = require('express')
 const { UserBindingContext } = require('twilio/lib/rest/chat/v2/service/user/userBinding')
+const Swal = require('sweetalert2')
 // var adminHelpers = require('../helpers/admin-helpers');
 let allFilteredProducts
 
@@ -116,8 +117,9 @@ module.exports = {
       var wishlistCount = await userHelpers.getWishlistCount(req.session.user._id)
       var cartCount = await userHelpers.getCartCount(req.session.user._id)
     }
-    userHelpers.getAllProducts().then((allProducts) => {
-      res.render('user/user-home', { user: true, userDetails, wishlistCount, cartCount, allProducts })
+   let allProductsSlide2=await userHelpers.getProductsHome2(8)
+    userHelpers.getProductsHome1(8).then((allProducts) => {
+      res.render('user/user-home', { user: true, userDetails, wishlistCount,allProductsSlide2, cartCount, allProducts })
     })
   },
 
@@ -134,16 +136,19 @@ module.exports = {
   },
 
 
-
-  getProductDetails: async (req, res) => {
-    const userDetails = req.session.user
-    if (userDetails) {
-
-      var wishlistCount = await userHelpers.getWishlistCount(req.session.user._id)
+  getProductDetails: async (req, res,next) => {
+    try {
+      const userDetails = req.session.user
+      if (userDetails) {
+  
+        var wishlistCount = await userHelpers.getWishlistCount(req.session.user._id)
+      }
+      userHelpers.proDetails(req.params.id).then((productDetails) => {
+        res.render('user/productDetails', { productDetails, user: true, wishlistCount, cartCount: req.session.cartVolume, userDetails })
+      })
+    } catch (error) {
+      next(error)
     }
-    userHelpers.proDetails(req.params.id).then((productDetails) => {
-      res.render('user/productDetails', { productDetails, user: true, wishlistCount, cartCount: req.session.cartVolume, userDetails })
-    })
   },
 
   getShopCategory: async (req, res) => {
@@ -313,11 +318,11 @@ module.exports = {
   },
 
   postCheckout: async (req, res) => {
-    console.log(req.body, "orderDetailsssssssssss");
+   
     let couponName = req.body.couponName
-    console.log(req.body.couponName, "ooooohha");
+    
     let order = req.body
-    console.log(order, "jjjjjcontroletr");
+    ;
     products = await userHelpers.getCartProductList(req.body.userId)
     totalPrice = await userHelpers.getTotalAmount(req.body.userId)
     let grandTotal=order.grandTotal
@@ -356,8 +361,13 @@ module.exports = {
   },
 
   getviewOrders: async (req, res) => {
-    var cartCount = await userHelpers.getCartCount(req.session.user._id)
-    let wishlistCount = await userHelpers.getWishlistCount(req.session.user._id)
+    let cartCount=null
+    let wishlistCount=null
+    if(req.session.user._id){
+       cartCount = await userHelpers.getCartCount(req.session.user._id)
+       wishlistCount = await userHelpers.getWishlistCount(req.session.user._id)
+
+    }
     userHelpers.getUserOrders(req.session.user._id).then((orders) => {
       res.render('user/orders', { user: true, wishlistCount, orders, cartCount, userDetails: req.session.user })
     })
@@ -391,15 +401,13 @@ module.exports = {
     console.log(req.body, "hai");
     let coupon = req.body.coupon
     let userId = req.body.userId
+    let subtotal=req.body.subtotal
     console.log(coupon, userId, "llooll");
-    userHelpers.postapplyCoupon(coupon, userId).then((response) => {
+    userHelpers.postapplyCoupon(coupon, userId,subtotal).then((response) => {
 
-      if (response.coupon) {
+      if (response.valid) {
         req.session.coupon = response
-
       }
-
-
 
       console.log(req.session.coupon, "coup details");
       console.log(response, "kkkpkk");

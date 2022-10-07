@@ -186,9 +186,7 @@
                 },
                 method: 'post',
                 success: (response) => {
-
-                    console.log(response, "ijijji")
-                    alert("currentAddress ")
+                    Swal.fire("currentAddress ")
                     document.getElementById('name').value = response.name
                     document.getElementById('phone').value = response.phone
                     document.getElementById('building_Name').value = response.building_Name
@@ -209,7 +207,7 @@
                 method: 'post',
                 data: $('#checkout-form').serialize(),
                 success: ((response) => {
-                    alert(response)
+                    Swal.fire(response)
                     if (response.codSuccess) {
                         location.href = '/orderPlaced'
                     } else {
@@ -262,7 +260,7 @@
                     if (response.status) {
                         location.href = '/orderPlaced'
                     } else {
-                        alert("Payment failed")
+                        Swal.fire("Payment failed")
                     }
                 }
             })
@@ -270,7 +268,6 @@
         }
 
         function applyCoupon() {
-
             var couponCode = document.getElementById('couponCode').value
             var userId = document.getElementById('userId').value
             var subtotal = document.getElementById('subTotal').innerHTML
@@ -279,16 +276,19 @@
                 method: 'post',
                 data: {
                     coupon: couponCode,
-                    userId: userId
+                    userId: userId,
+                    subtotal: subtotal
                 },
                 success: (response) => {
                     if (response.expired) {
-                        alert("sorry coupon expired")
+                        Swal.fire('sorry coupon expired')
                     } else if (response.used) {
-                        alert("already used")
+                        Swal.fire('failed','already used','attempt failed')
                     } else if (response.notAvailable) {
                         console.log(response, "invalid")
-                        alert("invalid coupon")
+                        Swal.fire('failed','invalid coupon')
+                    } else if (response.orderLimit) {
+                        Swal.fire("minimum cart value "+response.minCartValue)
                     } else {
                         var discount = response.reduction
                         console.log(discount, "ttttprrrrptttt")
@@ -300,7 +300,7 @@
                         document.getElementById('couponNames').innerHTML = response.coupon
                         document.getElementById('grandTotal').value = GrandTotal
                         document.getElementById('Discount').value = discount
-                        alert("Hurray coupon applied")
+                        Swal.fire('Hurray', 'Coupon Applied','success')
                         console.log(response, "ttttrrrr")
                     }
                 }

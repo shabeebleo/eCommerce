@@ -20,10 +20,10 @@ router.get('/login', userController.getLogin);
 router.post('/login', userController.postLogin);
 
 //  user homepage    //
-router.get('/', userController.getHomepage);
+router.get('/', userController.getHomepage);  
 
 //  user Profile  //
-router.get('/profile', userController.getProfile);
+router.get('/profile', userController.getProfile);  
 router.post('/editProfile/:id',userController.postEditProfile)        
 router.post('/addAddress/:id',userController.postaddAddress)
 router.post('/deleteAddress',userController.postDeleteAddress)      

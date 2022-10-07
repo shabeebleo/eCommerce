@@ -10,14 +10,16 @@
                         <div class="card-body card-block">
 
                             <form action="/admin/coupons" method="post" class="">
-                               
-                                    <input type="text" id="nf-email" name="coupon" placeholder=" Coupon name"
-                                        class="form-control">
-                                        <input type="number" id="nf-email" name="reduction" placeholder=" Reduction"
-                                        class="form-control">
-                                        <input type="date" id="nf-email" name="expiryDate" placeholder=" ExpiryDate"
-                                        class="form-control">
-                               
+
+                                <input type="text" id="nf-email" name="coupon" placeholder=" Coupon name"
+                                    class="form-control">
+                                <input type="number" id="nf-email" name="reduction" placeholder=" Reduction"
+                                    class="form-control">
+                                <input type="date" id="nf-email" name="expiryDate" placeholder=" ExpiryDate"
+                                    class="form-control">
+                                <input type="text" id="nf-email" name="minCartValue" placeholder=" minCartValue"
+                                    class="form-control">
+
                                 <button type="submit" class="btn btn-primary btn-sm">
                                     <i class="fa fa-dot-circle-o"></i> Add Coupon
                                 </button>
@@ -39,7 +41,9 @@
                                         <th scope="col">coupon</th>
                                         <th> coupon reduction</th>
                                         <th> coupon expiry</th>
+                                        <th>minCartValue</th>
                                         <th>deleting coupons</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,6 +55,7 @@
                                         <td>{{this.expiryDate}}</td>
                                         <td><a href="/admin/deleteCoupons/{{this._id}}"
                                                 class="btn btn-danger">Delete</a></td>
+                                        <td>{{this.minCartValue}}</td>
                                     </tr>
                                     {{/each}}
                                 </tbody>

@@ -7,7 +7,7 @@ const hbs = require('express-handlebars');
 const db = require('./config/connection');
 const session = require('express-session')
 const nocache = require('nocache')
-
+const Swal = require('sweetalert2')
 
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
@@ -20,7 +20,19 @@ app.set('view engine', 'hbs');
 app.engine('hbs', hbs.engine({
   helpers: {
     inc: function (value, options) { return parseInt(value) + 1; },
-    skip: function(allProducts){return allProducts.slice(0,8)}
+    eqPacked: (status)=>{
+      return status==='packed'? true : false
+    },
+    eqShipped: (status)=>{
+      return status==='shipped'? true : false
+    }
+    ,
+    eqPlaced: (status)=>{
+      return status==='placed'? true : false
+    },
+    eqPending: (status)=>{
+      return status==='pending'? true : false
+    },
   },
   extname: 'hbs', defaultLayout: 'user-layout', layoutsDir: __dirname + '/views/layout/',
   partialsDir: __dirname + '/views/partials/'

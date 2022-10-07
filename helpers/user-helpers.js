@@ -90,6 +90,36 @@ module.exports = {
         })
     },
 
+    getProductsHome1: (limit) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let allProducts = await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
+                    {
+                       $limit:limit
+                    }
+                ]).toArray()
+                resolve(allProducts)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
+    getProductsHome2: (skip) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let allProducts = await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
+                    {
+                       $skip:skip
+                    }
+                ]).toArray()
+                resolve(allProducts)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
     searchProducts: (key) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -618,7 +648,6 @@ module.exports = {
 
 
                 ]).toArray()
-                console.log(total[0], total[0].total, 'shabeeeeb');
                 resolve(total[0])
 
             } catch (error) {
@@ -827,7 +856,7 @@ module.exports = {
 
     },
 
-    postapplyCoupon: (coupon, userId) => {
+    postapplyCoupon: (coupon, userId, subtotal) => {
         return new Promise(async (resolve, reject) => {
             let result = await db.get().collection(collections.COUPON_COLLECTION).findOne({ coupon: coupon })
             if (result) {
@@ -841,10 +870,15 @@ module.exports = {
                     if (user) {
                         console.log("used");
                         resolve({ used: true })
-                    
                     } else {
-
-                        resolve(result)
+                        let minCartValue = parseInt(result.minCartValue)
+                        if (subtotal < minCartValue) {
+                            result.orderLimit = true
+                            resolve(result)
+                        } else {
+                            result.valid = true
+                            resolve(result)
+                        }
                     }
                 }
             } else {

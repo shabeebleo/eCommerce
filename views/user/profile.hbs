@@ -18,7 +18,7 @@
                     <div class="card-body text-center">
                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                             alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                        <h5 class="my-3">John Smith</h5>
+                        <h5 class="my-3">{{userDetails.username}}</h5>
 
                     </div>
                 </div>
@@ -37,7 +37,8 @@
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                                 <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-                                <p class="mb-0 btn btn-secondary">View orders</p>
+                             <a  href="/orders" class="mb-0 btn btn-secondary">View orders</a>
+                               
                             </li>
                         </ul>
                     </div>
@@ -89,10 +90,13 @@
                                 </p>
                                 <p class="mb-4">{{this.street_name}},{{this.city}},{{this.district}},{{this.pincode}}
                                 </p>
-                                
+
                                 <div>
-                                    <button onclick="currentAddress('{{../userDetails._id}}','{{this.addId}}')" data-toggle="modal" data-target="#editAddress"  class="btn btn-info">Edit</button>
-                                    <button  onclick="deleteAddress('{{../userDetails._id}}','{{this.addId}}')" class="btn ">Delete</button>
+                                    <button onclick="currentAddress('{{../userDetails._id}}','{{this.addId}}')"
+                                        data-toggle="modal" data-target="#editAddress"
+                                        class="btn btn-info">Edit</button>
+                                    <button onclick="deleteAddress('{{../userDetails._id}}','{{this.addId}}')"
+                                        class="btn ">Delete</button>
                                 </div>
 
 
@@ -210,7 +214,7 @@
 
     {{!-- modal edit address --}}
 
- <div class="modal fade" id="editAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="editAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -234,18 +238,17 @@
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput">Building Name</label>
-                            <input type="text" name="building_Name" value="" class="form-control"
-                                id="building_Name" placeholder="Building Name">
+                            <input type="text" name="building_Name" value="" class="form-control" id="building_Name"
+                                placeholder="Building Name">
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput">Street Name</label>
-                            <input type="text" name="street_name" value="" class="form-control"
-                                id="street_name" placeholder="Street Name">
+                            <input type="text" name="street_name" value="" class="form-control" id="street_name"
+                                placeholder="Street Name">
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput">City</label>
-                            <input type="text" name="city" value="" class="form-control" id="city"
-                                placeholder="City ">
+                            <input type="text" name="city" value="" class="form-control" id="city" placeholder="City ">
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput">District</label>
@@ -275,69 +278,91 @@
         </div>
     </div>
 
+    <script>
 
 
 
-<script>
-function deleteAddress(userId,addressId){
-    $.ajax({
-        url:'/deleteAddress',
-        data:{
-            user:userId,
-            addressId:addressId
-        },
-        method:'post',
-         success:(response)=>{           
-            alert("address deleted")
-             location.reload()
+
+
+
+
+        function deleteAddress(userId, addressId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/deleteAddress',
+                        data: {
+                            user: userId,
+                            addressId: addressId
+                        },
+                        method: 'post',
+                        success: (response) => {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                            location.reload()
+                        }
+                    })
+
+                }
+            })
+
+
         }
-    })
-}
+
+        function currentAddress(userId, addressId) {
+            $.ajax({
+                url: '/currentAddress',
+                data: {
+                    user: userId,
+                    addressId: addressId
+                },
+                method: 'post',
+                success: (response) => {
+                    document.getElementById('name').value = response.name
+                    document.getElementById('phone').value = response.phone
+                    document.getElementById('building_Name').value = response.building_Name
+                    document.getElementById('street_name').value = response.street_name
+                    document.getElementById('district').value = response.district
+                    document.getElementById('state').value = response.state
+                    document.getElementById('pincode').value = response.pincode
+                    document.getElementById('city').value = response.city
+                    document.getElementById('addressId').value = response.addId
 
 
-function currentAddress(userId,addressId){
-    
-    $.ajax({
-        url:'/currentAddress',
-        data:{
-            user:userId,
-            addressId:addressId
-        },
-        method:'post',
-        success:(response)=>{  
-                
-            alert("currentAddress ")
-            document.getElementById('name').value=response.name
-            document.getElementById('phone').value=response.phone
-            document.getElementById('building_Name').value=response.building_Name
-            document.getElementById('street_name').value=response.street_name
-            document.getElementById('district').value=response.district
-            document.getElementById('state').value=response.state
-            document.getElementById('pincode').value=response.pincode
-            document.getElementById('city').value=response.city
-            document.getElementById('addressId').value=response.addId
-
-             
+                }
+            })
         }
-    })
-}
 
-       $("#editaddress-form").submit((e) => {
+        $("#editaddress-form").submit((e) => {
             e.preventDefault()
             $.ajax({
                 url: '/editaddress',
                 method: 'post',
                 data: $('#editaddress-form').serialize(),
-                success:((response)=> {
-                alert('address edited')
-                if(response){
-                    location.reload('/profile')
-                }
+                success: ((response) => {
+                    if (response) {
+                        Swal.fire('address edited', 'success')
+                        setTimeout(() => {
+                            location.reload()
+                        }, 500)
+
+                    }
+                })
             })
         })
-        })
 
 
-</script>
+    </script>
 
 </section>
