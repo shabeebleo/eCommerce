@@ -578,41 +578,41 @@ module.exports = {
         })
     },
 
-    getAllSales: () => {
-        return new Promise(async (resolve, reject) => {
-            try {
+    // getAllSales: () => {
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
              
-                let sales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
-                    {
-                        $match: {
-                            status: "delivered"
-                        }
-                    },
-                    {
-                        $unwind:
-                            '$products'
-                    },
-                    {
-                        $group: {
+    //             let sales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+    //                 {
+    //                     $match: {
+    //                         status: "delivered"
+    //                     }
+    //                 },
+    //                 {
+    //                     $unwind:
+    //                         '$products'
+    //                 },
+    //                 {
+    //                     $group: {
 
-                            _id: null,
-                            sum: {
-                                $sum: "$products.quantity"
+    //                         _id: null,
+    //                         sum: {
+    //                             $sum: "$products.quantity"
 
-                            }
+    //                         }
 
-                        }
-                    }
+    //                     }
+    //                 }
 
-                ]).toArray()
-                console.log(sales[0].sum);
-                resolve(sales[0].sum)
-            } catch (error) {
-                reject(error)
-            }
+    //             ]).toArray()
+    //             console.log(sales[0].sum);
+    //             resolve(sales[0].sum)
+    //         } catch (error) {
+    //             reject(error)
+    //         }
 
-        })
-    },
+    //     })
+    // },
     userCount: () => {
         return new Promise(async (resolve, reject) => {
             try {

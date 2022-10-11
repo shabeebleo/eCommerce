@@ -60,7 +60,7 @@ module.exports = {
 
   getAdminHome: async function (req, res, next) {
     try {
-      let getAllSales = await adminHelpers.getAllSales()
+      // let getAllSales = await adminHelpers.getAllSales()
       let userCount = await adminHelpers.userCount()
       let orderCount = await adminHelpers.orderCount()
       adminHelpers.getOverAllSale().then((Revenue) => {
