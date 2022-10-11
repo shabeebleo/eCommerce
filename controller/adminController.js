@@ -63,13 +63,13 @@ module.exports = {
       // let getAllSales = await adminHelpers.getAllSales()
       let userCount = await adminHelpers.userCount()
       let orderCount = await adminHelpers.orderCount()
-      adminHelpers.getOverAllSale().then((Revenue) => {
-        res.render('admin/admin-home', { layout: 'admin-layout', userCount, orderCount, Revenue, admin: true });
+      // adminHelpers.getOverAllSale().then((Revenue) => {
+        res.render('admin/admin-home', { layout: 'admin-layout', userCount, orderCount, admin: true });
 
-      }).catch((error) => {
-        console.log(error, "getOverAllSale");
-        next(error)
-      })
+      // }).catch((error) => {
+      //   console.log(error, "getOverAllSale");
+      //   next(error)
+      // })
     } catch (error) {
       console.log(error, "getAdminHome");
       next(error)
