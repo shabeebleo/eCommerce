@@ -64,7 +64,7 @@ module.exports = {
       let userCount = await adminHelpers.userCount()
       let orderCount = await adminHelpers.orderCount()
       adminHelpers.getOverAllSale().then((Revenue) => {
-        res.render('admin/admin-home', { layout: 'admin-layout', getAllSales, userCount, orderCount, Revenue, admin: true });
+        res.render('admin/admin-home', { layout: 'admin-layout', userCount, orderCount, Revenue, admin: true });
 
       }).catch((error) => {
         console.log(error, "getOverAllSale");
