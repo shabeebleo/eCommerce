@@ -76,68 +76,69 @@ module.exports = {
     }
   },
 
-  TotalRevenueGraph: (req, res, next) => {
-
-    adminHelpers.getTotalRevenues().then((response) => {
-      res.json(response)
-    }).catch((error) => {
-      console.log(error, "getTotalRevenues");
-      next(error)
-    })
-  },
-
-  TotalRevenuePie: (req, res, next) => {
-    adminHelpers.getTotalRevenuePie().then((response) => {
-      res.json(response)
-    }).catch((error) => {
-      console.log(error, "getTotalRevenuePie");
-      next(error)
-    })
-
-
-
-  },
-
-  monthlySalesLineChart: async (req, res, next) => {
+  TotalRevenueGraph:async (req, res) => {
     try {
-      let getOverAllSale = await adminHelpers.getOverAllSale()
-      adminHelpers.getMonthlySalesLineChart(getOverAllSale).then((response) => {
+        let response = await adminHelpers.getTotalRevenue()
         res.json(response)
-      }).catch((error) => {
-        console.log(error, "getMonthlySalesLineChart");
+    } catch (error) {
+        console.log(error)
         next(error)
-      })
-    } catch (error) {
-      console.log(error, "monthlySalesLineChart");
-      next(error)
     }
 
-  },
+},
 
-  catSalesDonut: async (req, res, next) => {
-    try {
-      let allCategories = await adminHelpers.getAllCategories()
-      let catNames = []
-      catNames[0] = allCategories[0].category
-      catNames[1] = allCategories[1].category
-      catNames[2] = allCategories[2].category
-      catNames[3] = allCategories[3].category
-      let allCatRevenues = []
-      let menCategoryRevenue = await adminHelpers.categoryRevenue(catNames[0])
-      let womenCategoryRevenue = await adminHelpers.categoryRevenue(catNames[1])
-      let kidsCategoryRevenue = await adminHelpers.categoryRevenue(catNames[2])
-      let unisexCategoryRevenue = await adminHelpers.categoryRevenue(catNames[3])
-      allCatRevenues[0] = menCategoryRevenue
-      allCatRevenues[1] = womenCategoryRevenue
-      allCatRevenues[2] = kidsCategoryRevenue
-      allCatRevenues[3] = unisexCategoryRevenue
-      res.json(allCatRevenues)
+  // TotalRevenuePie: (req, res, next) => {
+  //   adminHelpers.getTotalRevenuePie().then((response) => {
+  //     res.json(response)
+  //   }).catch((error) => {
+  //     console.log(error, "getTotalRevenuePie");
+  //     next(error)
+  //   })
 
-    } catch (error) {
-      console.log(error, "catSalesDonut");
-      next(error)
-    }
-  },
+
+
+  // },
+
+  // monthlySalesLineChart: async (req, res, next) => {
+  //   try {
+  //     let getOverAllSale = await adminHelpers.getOverAllSale()
+  //     adminHelpers.getMonthlySalesLineChart(getOverAllSale).then((response) => {
+  //       res.json(response)
+  //     }).catch((error) => {
+  //       console.log(error, "getMonthlySalesLineChart");
+  //       next(error)
+  //     })
+  //   } catch (error) {
+  //     console.log(error, "monthlySalesLineChart");
+  //     next(error)
+  //   }
+
+  // },
+
+  // catSalesDonut: async (req, res, next) => {
+  //   try {
+  //     let allCategories = await adminHelpers.getAllCategories()
+  //     let catNames = []
+  //     catNames[0] = allCategories[0].category
+  //     catNames[1] = allCategories[1].category
+  //     catNames[2] = allCategories[2].category
+  //     catNames[3] = allCategories[3].category
+  //     let allCatRevenues = []
+  //     let menCategoryRevenue = await adminHelpers.categoryRevenue(catNames[0])
+  //     let womenCategoryRevenue = await adminHelpers.categoryRevenue(catNames[1])
+  //     let kidsCategoryRevenue = await adminHelpers.categoryRevenue(catNames[2])
+  //     let unisexCategoryRevenue = await adminHelpers.categoryRevenue(catNames[3])
+  //     allCatRevenues[0] = menCategoryRevenue
+  //     allCatRevenues[1] = womenCategoryRevenue
+  //     allCatRevenues[2] = kidsCategoryRevenue
+  //     allCatRevenues[3] = unisexCategoryRevenue
+  //     res.json(allCatRevenues)
+
+  //   } catch (error) {
+  //     console.log(error, "catSalesDonut");
+  //     next(error)
+  //   }
+  // },
 
 
 

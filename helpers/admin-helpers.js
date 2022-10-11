@@ -432,12 +432,11 @@ module.exports = {
     //     })
     // },
 
-    getTotalRevenues: () => {
+    getTotalRevenue: () => {
         return new Promise(async (resolve, reject) => {
             try {
                 let today = new Date()
                 let before = new Date(new Date().getTime() - (250 * 24 * 60 * 60 * 1000))
-                console.log(before, today, "before");
                 let revenue = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
                     {
                         $match: {
@@ -446,18 +445,16 @@ module.exports = {
                                 $gte: before,
                                 $lte: today
                             }
-
                         }
                     },
                     {
                         $project: {
-                            Paymentmethod: 1, GrandTotal: 1, date: 1
+                            PaymentMethod: 1, GrandTotal: 1, date: 1
                         }
                     },
                     {
                         $group: {
-                            _id: { date: { $dateToString: { format: "%m-%Y", date: "$date" } }, Paymentmethod: '$Paymentmethod' },
-
+                            _id: { date: { $dateToString: { format: "%m-%Y", date: "$date" } }, PaymentMethod: '$PaymentMethod' },
                             Amount: { $sum: '$GrandTotal' }
                         }
                     },
@@ -465,87 +462,85 @@ module.exports = {
                         $project: {
                             _id: 0,
                             date: '$_id.date',
-                            Paymentmethod: '$_id.Paymentmethod',
-                            Amount: '$Amount'
+                            PaymentMethod: '$_id.PaymentMethod',
+                            amount: '$Amount',
                         }
                     }
-
-
                 ]).sort({ date: 1 }).toArray()
-                console.log(revenue, "revenuerevenue");
                 let obj = {
                     date: [], cod: [0, 0, 0, 0, 0, 0, 0, 0], online: [0, 0, 0, 0, 0, 0, 0, 0]
                 }
-                let month = ['Jan', 'Feb', 'March', 'April', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                 let a = today.getMonth() - 6
                 for (let i = 0; i < 8; i++) {
-
-                    obj.date[i] = month[a + i - 1]
-                }
-
-                obj.cod[6] = revenue[1].Amount
-                obj.cod[7] = revenue[4].Amount
-                obj.online[5] = revenue[0].Amount
-                obj.online[6] = revenue[2].Amount
-                obj.online[7] = revenue[3].Amount
-                console.log(obj, "qweeeeeeeeee");
-                resolve(obj)
-            } catch (error) {
-                reject(error)
-            }
-        })
-    },
-
-
-
-    getTotalRevenuePie: () => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                let today = new Date()
-                let before = new Date(new Date().getTime() - (250 * 24 * 60 * 60 * 1000))
-                console.log(today, before, "beforebefore");
-                let revenue = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
-                    {
-                        $match: {
-                            status: "delivered",
-                            date: {
-                                $gte: before,
-                                $lte: today
+                    for (let k = 0; k < revenue.length; k++) {
+                        if (Number(revenue[k].date.slice(0, 2)) == Number(a + i)) {
+                            if (revenue[k].PaymentMethod == 'ONLINE') {
+                                obj.online[i] = revenue[k].amount
+                            } else {
+                                obj.cod[i] = revenue[k].amount
                             }
                         }
-                    },
-                    {
-                        $project: {
-                            Paymentmethod: 1, GrandTotal: 1, date: 1
-                        }
-                    },
-                    {
-                        $group: {
-                            _id: { Paymentmethod: "$Paymentmethod" },
-                            Amount: { $sum: "$GrandTotal" }
-                        }
-                    },
-                    {
-                        $sort: {
-                            "_id.Paymentmethod": 1
-                        }
                     }
-                ]).toArray()
-                console.log(revenue, "getTotalRevenuePie");
-                let obj = {
-                    cod: [1, 0], online: [1, 0]
+                    obj.date[i] = month[a + i - 1]
                 }
-                console.log(revenue[1].Amount, "revenue[1].Amount");
-
-                obj.cod[1] = revenue[0].Amount
-                obj.online[1] = revenue[1].Amount
-                console.log(obj, "obj");
                 resolve(obj)
             } catch (error) {
                 reject(error)
             }
+
         })
     },
+
+
+    // getTotalRevenuePie: () => {
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
+    //             let today = new Date()
+    //             let before = new Date(new Date().getTime() - (250 * 24 * 60 * 60 * 1000))
+    //             console.log(today, before, "beforebefore");
+    //             let revenue = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+    //                 {
+    //                     $match: {
+    //                         status: "delivered",
+    //                         date: {
+    //                             $gte: before,
+    //                             $lte: today
+    //                         }
+    //                     }
+    //                 },
+    //                 {
+    //                     $project: {
+    //                         Paymentmethod: 1, GrandTotal: 1, date: 1
+    //                     }
+    //                 },
+    //                 {
+    //                     $group: {
+    //                         _id: { Paymentmethod: "$Paymentmethod" },
+    //                         Amount: { $sum: "$GrandTotal" }
+    //                     }
+    //                 },
+    //                 {
+    //                     $sort: {
+    //                         "_id.Paymentmethod": 1
+    //                     }
+    //                 }
+    //             ]).toArray()
+    //             console.log(revenue, "getTotalRevenuePie");
+    //             let obj = {
+    //                 cod: [1, 0], online: [1, 0]
+    //             }
+    //             console.log(revenue[1].Amount, "revenue[1].Amount");
+
+    //             obj.cod[1] = revenue[0].Amount
+    //             obj.online[1] = revenue[1].Amount
+    //             console.log(obj, "obj");
+    //             resolve(obj)
+    //         } catch (error) {
+    //             reject(error)
+    //         }
+    //     })
+    // },
 
     getOverAllSale: () => {
         return new Promise(async (resolve, reject) => {
@@ -641,50 +636,50 @@ module.exports = {
         })
     },
 
-    getMonthlySalesLineChart: (getOverAllSale) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                let today = new Date()
-                let before = new Date(new Date().getTime() - (250 * 24 * 60 * 60 * 1000))
-                console.log("getMonthlySalesLineChartHelpers");
-                let monthlySales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
-                    {
-                        $match: {
-                            status: 'delivered',
-                            date: {
-                                $gte: before,
-                                $lte: today
-                            }
-                        }
-                    }, {
-                        $project: {
-                            date: 1, GrandTotal: 1
-                        }
-                    }, {
-                        $group: {
-                            _id: { date: { $dateToString: { format: "%m-%Y", date: '$date' } } },
-                            monthlySales: { $sum: "$GrandTotal" }
-                        }
-                    },
-                    // {
-                    //     $sort:{
-                    //         monthlySales:1
-                    //     }
-                    // }
-                ]).toArray()
-                console.log(monthlySales, "monthlySalesmonthlySales");
-                let obj = [[0, 1], [1, 2], [2, 3]]
+    // getMonthlySalesLineChart: (getOverAllSale) => {
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
+    //             let today = new Date()
+    //             let before = new Date(new Date().getTime() - (250 * 24 * 60 * 60 * 1000))
+    //             console.log("getMonthlySalesLineChartHelpers");
+    //             let monthlySales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+    //                 {
+    //                     $match: {
+    //                         status: 'delivered',
+    //                         date: {
+    //                             $gte: before,
+    //                             $lte: today
+    //                         }
+    //                     }
+    //                 }, {
+    //                     $project: {
+    //                         date: 1, GrandTotal: 1
+    //                     }
+    //                 }, {
+    //                     $group: {
+    //                         _id: { date: { $dateToString: { format: "%m-%Y", date: '$date' } } },
+    //                         monthlySales: { $sum: "$GrandTotal" }
+    //                     }
+    //                 },
+    //                 // {
+    //                 //     $sort:{
+    //                 //         monthlySales:1
+    //                 //     }
+    //                 // }
+    //             ]).toArray()
+    //             console.log(monthlySales, "monthlySalesmonthlySales");
+    //             let obj = [[0, 1], [1, 2], [2, 3]]
 
-                obj[0][1] = Math.floor(monthlySales[0].monthlySales * 10 / getOverAllSale)
-                obj[1][1] = Math.ceil(monthlySales[1].monthlySales * 10 / getOverAllSale)
-                obj[2][1] = Math.ceil(monthlySales[2].monthlySales * 10 / getOverAllSale)
+    //             obj[0][1] = Math.floor(monthlySales[0].monthlySales * 10 / getOverAllSale)
+    //             obj[1][1] = Math.ceil(monthlySales[1].monthlySales * 10 / getOverAllSale)
+    //             obj[2][1] = Math.ceil(monthlySales[2].monthlySales * 10 / getOverAllSale)
 
-                resolve(obj)
-            } catch (error) {
-                reject(error)
-            }
-        })
-    },
+    //             resolve(obj)
+    //         } catch (error) {
+    //             reject(error)
+    //         }
+    //     })
+    // },
 
 
     categoryRevenue: (categName) => {

@@ -49,7 +49,7 @@ router.post('/',adminController.postLoginpage)
 
 // ..............homepage.........//
 router.get('/adminHome',verifyAdmin,adminController.getAdminHome);
-// router.post('/total-revenue',verifyAdmin,adminController.TotalRevenueGraph)
+router.post('/total-revenue',verifyAdmin,adminController.TotalRevenueGraph)
 // router.post('/onlineCod',verifyAdmin,adminController.TotalRevenuePie)
 // router.post('/monthlySales',verifyAdmin,adminController.monthlySalesLineChart)
 // router.post('/catSales',verifyAdmin,adminController.catSalesDonut)
