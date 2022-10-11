@@ -30,7 +30,7 @@
                     <div class="">
                         <div class="card">
                             <div class="card-header">
-                                <strong class="card-title">Custom Table</strong>
+                                <strong class="card-title">Order List</strong>
                             </div>
                             <div class="table-stats order-table ov-h">
                                 <table class="table ">
@@ -54,7 +54,7 @@
                                         {{#each orders}}
                                         <tr>
                                             <td class="serial"></td>
-                                            <td> {{this.date}} </td>
+                                            <td> {{isoToDate this.date}} </td>
                                             <td> <span class="product">{{this._id}}</span> </td>
                                             <td> <span class="name">{{this.userId}}</span> </td>
                                             <td> <span class="name">{{this.deliveryDetails.Mobile}}</span> </td>

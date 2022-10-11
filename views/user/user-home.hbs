@@ -21,7 +21,7 @@
 									<h1>here is your<br>footlocker</h1>
 
 									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+										<a class="add-btn" href="/productDetails/634336630b3170027ed4d85e"><span class="lnr lnr-cross"></span></a>
 										<span class="add-text text-uppercase">Add to Bag</span>
 									</div>
 								</div>
@@ -37,9 +37,7 @@
 							<div class="col-lg-5">
 								<div class="banner-content">
 									<h1>Nike New <br>Collection!</h1>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-										incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+									
 									<div class="add-bag d-flex align-items-center">
 										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
 										<span class="add-text text-uppercase">Add to Bag</span>
@@ -168,17 +166,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-deal">
-						<div class="overlay"></div>
-						<img class="img-fluid w-100" src="user/img/category/c5.jpg" alt="">
-						<a href="img/category/c5.jpg" class="img-pop-up" target="_blank">
-							<div class="deal-details">
-								<h6 class="deal-title">Sneaker for Sports</h6>
-							</div>
-						</a>
-					</div>
-				</div>
 			</div>
 		</div>
 	</section>
@@ -226,10 +213,10 @@
 									</a>
 									<a  onclick="addToWishlist('{{this._id}}')" class="social-info">
 										<span class="lnr lnr-heart"></span>
-										<p  class="hover-text">Wishlist</p>
+										<p onclick="addToWishlist('{{this._id}}')" class="hover-text">Wishlist</p>
 									</a>
 								
-									<a href="" class="social-info">
+									<a href="/shopCategory" class="social-info">
 										<span class="lnr lnr-move"></span>
 										<p class="hover-text">view more</p>
 									</a>
@@ -271,16 +258,16 @@
 								</div>
 								<div class="prd-bottom">
 
-									<a href="" class="social-info">
+									<a onclick="addToCart('{{this._id}}')" class="social-info">
 										<span class="ti-bag"></span>
-										<p  class="hover-text">add to bag</p>
+										<p onclick="addToCart('{{this._id}}')" class="hover-text">add to bag</p>
 									</a>
-									<a href="" class="social-info">
+									<a onclick="addToWishlist('{{this._id}}')" class="social-info">
 										<span class="lnr lnr-heart"></span>
-										<p class="hover-text">Wishlist</p>
+										<p onclick="addToWishlist('{{this._id}}')" class="hover-text">Wishlist</p>
 									</a>
 									
-									<a href="" class="social-info">
+									<a href="/shopCategory" class="social-info">
 										<span class="lnr lnr-move"></span>
 										<p class="hover-text">view more</p>
 									</a>
@@ -300,33 +287,9 @@
 	<!-- end product Area -->
 
 
-	<!-- Start brand Area -->
-	<section class="brand-area section_gap">
-		<div class="container">
-			<div class="row">
-				<a class="col single-img" href="#">
-					<img class="img-fluid d-block mx-auto" src="user/img/brand/1.png" alt="">
-				</a>
-				<a class="col single-img" href="#">
-					<img class="img-fluid d-block mx-auto" src="user/img/brand/2.png" alt="">
-				</a>
-				<a class="col single-img" href="#">
-					<img class="img-fluid d-block mx-auto" src="user/img/brand/3.png" alt="">
-				</a>
-				<a class="col single-img" href="#">
-					<img class="img-fluid d-block mx-auto" src="user/img/brand/4.png" alt="">
-				</a>
-				<a class="col single-img" href="#">
-					<img class="img-fluid d-block mx-auto" src="user/img/brand/5.png" alt="">
-				</a>
-			</div>
-		</div>
-	</section>
-	<!-- End brand Area -->
 
 
 
-	{{!--
 	<!-- start footer Area -->
 	<footer class="footer-area section_gap">
 		<div class="container">
@@ -335,9 +298,8 @@
 					<div class="single-footer-widget">
 						<h6>About Us</h6>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-							ut labore dolore
-							magna aliqua.
+							Every good company was founded on an idea — something the current marketplace might not yet offer
+							and we belongs this genre
 						</p>
 					</div>
 				</div>
@@ -345,6 +307,6 @@
 
 
 		</div>
-	</footer> --}}
+	</footer> 
 
 </body>

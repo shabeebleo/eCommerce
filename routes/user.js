@@ -14,6 +14,7 @@ const adminController=require('../controller/adminController')
 router.get('/signUp', userController.getSignUp)
 router.post('/signUp', userController.postSignUp)
 router.post('/otp', userController.postOtp)
+router.get('/otp', userController.getOtp)
 
 //  user login  //.
 router.get('/login', userController.getLogin);
@@ -24,6 +25,7 @@ router.get('/', userController.getHomepage);
 
 //  user Profile  //
 router.get('/profile', userController.getProfile);  
+router.post('/changePassword/:id',userController.changePassword)
 router.post('/editProfile/:id',userController.postEditProfile)        
 router.post('/addAddress/:id',userController.postaddAddress)
 router.post('/deleteAddress',userController.postDeleteAddress)      
@@ -50,7 +52,7 @@ router.get('/cart/:id',userController.getCart)
 router.post('/delete-cart-product',userController.postdelCartPro)
 
 //   add to cart  //
-router.get('/addToCart/:id', userController.getAddToCart)
+router.post('/addToCart/:id', userController.getAddToCart)
 
 //   add to wishlist  //
 router.get('/addToWishlist/:id', userController.getAddToWishlist)
@@ -69,7 +71,6 @@ router.post('/change-product-quantity',userController.postChangeProductQuantity)
 router.get('/place-order',userController.getCheckOut)
 router.post('/place-order',userController.postCheckout)
 router.post('/verify-payment',userController.postVerifyPayment)
-
 router.post('/applyCoupon',userController.postapplyCoupon)
 
 

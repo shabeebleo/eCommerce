@@ -4,6 +4,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
@@ -26,7 +27,7 @@
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
-    <title>kollam boy yoyo</title>
+    <title>footlover</title>
 
 
 </head>
@@ -68,35 +69,44 @@
     <script>
         jQuery(document).ready(function ($) {
             "use strict";
-
-            // Pie chart flotPie1
-            var piedata = [
-                { label: "Desktop visits", data: [[1, 32]], color: '#5c6bc0' },
-                { label: "Tab visits", data: [[1, 33]], color: '#ef5350' },
-                { label: "Mobile visits", data: [[1, 35]], color: '#66bb6a' }
-            ];
-
-            $.plot('#flotPie1', piedata, {
-                series: {
-                    pie: {
-                        show: true,
-                        radius: 1,
-                        innerRadius: 0.65,
-                        label: {
-                            show: true,
-                            radius: 2 / 3,
-                            threshold: 1
-                        },
-                        stroke: {
-                            width: 0
-                        }
+            function catRevenues() {
+                $.ajax({
+                    url: "/admin/catSales",
+                    method: "post",
+                    success: (response) => {
+                        var piedata = [
+                            { label: "Men ", data: [[1, response[0]]], color: '#5c6bc0' },
+                            { label: "Women ", data: [[1, response[1]]], color: '#ef5350' },
+                            { label: "Kids", data: [[1, response[2]]], color: '#66bb6a' },
+                            { label: "Unisex ", data: [[1, response[3]]], color: '#32a852' }
+                        ];
+                        $.plot('#flotPie1', piedata, {
+                            series: {
+                                pie: {
+                                    show: true,
+                                    radius: 1,
+                                    innerRadius: 0.65,
+                                    label: {
+                                        show: true,
+                                        radius: 2 / 3,
+                                        threshold: 1
+                                    },
+                                    stroke: {
+                                        width: 0
+                                    }
+                                }
+                            },
+                            grid: {
+                                hoverable: true,
+                                clickable: true
+                            }
+                        });
                     }
-                },
-                grid: {
-                    hoverable: true,
-                    clickable: true
-                }
-            });
+                })
+            }
+            catRevenues()
+            // Pie chart flotPie1
+
             // Pie chart flotPie1  End
             // cellPaiChart
 
@@ -137,82 +147,82 @@
             // cellPaiChart End
             // Line Chart  #flotLine5
 
-            function monthlySales(){
+            function monthlySales() {
                 $.ajax({
-                    url:'/admin/monthlySales',
-                    method:'post',
-                    success:(response)=>{
-                         var obj = response
+                    url: '/admin/monthlySales',
+                    method: 'post',
+                    success: (response) => {
+                        var obj = response
 
-            var plot = $.plot($('#flotLine5'), [{
-                data: obj,
-                label: 'New Data Flow',
-                color: '#fff'
-            }],
-                {
-                    series: {
-                        lines: {
-                            show: true,
-                            lineColor: '#fff',
-                            lineWidth: 2
-                        },
-                        points: {
-                            show: true,
-                            fill: true,
-                            fillColor: "#ffffff",
-                            symbol: "circle",
-                            radius: 3
-                        },
-                        shadowSize: 0
-                    },
-                    points: {
-                        show: true,
-                    },
-                    legend: {
-                        show: false
-                    },
-                    grid: {
-                        show: false
-                    }
-                });
+                        var plot = $.plot($('#flotLine5'), [{
+                            data: obj,
+                            label: 'New Data Flow',
+                            color: '#fff'
+                        }],
+                            {
+                                series: {
+                                    lines: {
+                                        show: true,
+                                        lineColor: '#fff',
+                                        lineWidth: 2
+                                    },
+                                    points: {
+                                        show: true,
+                                        fill: true,
+                                        fillColor: "#ffffff",
+                                        symbol: "circle",
+                                        radius: 3
+                                    },
+                                    shadowSize: 0
+                                },
+                                points: {
+                                    show: true,
+                                },
+                                legend: {
+                                    show: false
+                                },
+                                grid: {
+                                    show: false
+                                }
+                            });
                     }
                 })
             }
             monthlySales()
-   
-        //    var newCust = [[0, 3], [1, 5], [2, 4], [3, 7], [4, 9], [5, 3], [6, 6], [7, 4], [8, 10]];
 
-        //     var plot = $.plot($('#flotLine5'), [{
-         //       data: newCust,
-         //        label: 'New Data Flow',
-          //       color: '#fff'
-          //   }],
-         //        {
-           //          series: {
+            //    var newCust = [[0, 3], [1, 5], [2, 4], [3, 7], [4, 9], [5, 3], [6, 6], [7, 4], [8, 10]];
+
+            //     var plot = $.plot($('#flotLine5'), [{
+            //       data: newCust,
+            //        label: 'New Data Flow',
+            //       color: '#fff'
+            //   }],
+            //        {
+            //          series: {
             //             lines: {
-             //                show: true,
-              //               lineColor: '#fff',
-               //              lineWidth: 2
-                //         },
-                 //        points: {
-                 //            show: true,
-                  //           fill: true,
-                  //           fillColor: "#ffffff",
-                   //          symbol: "circle",
-                   //          radius: 3
-                     //    },
-                  //       shadowSize: 0
-                 //    },
-                //     points: {
-                //         show: true,
-                //     },
-                 //    legend: {
-                //         show: false
-                //     },
-              //       grid: {
-              //           show: false
-              //       }
-              //   });
+            //                show: true,
+            //               lineColor: '#fff',
+            //              lineWidth: 2
+            //         },
+            //        points: {
+            //            show: true,
+            //           fill: true,
+            //           fillColor: "#ffffff",
+            //          symbol: "circle",
+            //          radius: 3
+            //    },
+            //       shadowSize: 0
+            //    },
+            //     points: {
+            //         show: true,
+            //     },
+            //    legend: {
+            //         show: false
+            //     },
+            //       grid: {
+            //           show: false
+            //       }
+            //   });
             // Line Chart  #flotLine5 End
             // Traffic Chart using chartist
 

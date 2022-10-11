@@ -1,5 +1,5 @@
-const client = require('twilio')('AC52d10d461b4f8102486e57444ba53b0d', 'a3fd495b5167edb15409d05afc413548');
-const serviceSid = 'VAedfd84a4d559f10e96e0481b3d689965'
+const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+const serviceSid = process.env.TWILIO_SERVICE_ID
 
 module.exports = {
 
@@ -25,12 +25,15 @@ module.exports = {
                 to: `+91${userData.phone}`,
                 code: otpData.otp
             }).then((resp) => {
+                console.log(resp,"resprespresp");
                 console.log("verification success");
+               
                 resolve(resp)
+            }).catch((error)=>{
+                reject(error)
             })
         })
     }
-
 
 
 }

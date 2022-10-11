@@ -6,3 +6,8 @@ body {
 a {
   color: #00B7FF;
 }
+
+.cart-image4>img{
+  width: 10em !important;
+  height:10em !important
+}

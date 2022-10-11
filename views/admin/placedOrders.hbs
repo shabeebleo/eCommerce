@@ -30,7 +30,7 @@
                     <div class="">
                         <div class="card">
                             <div class="card-header">
-                                <strong class="card-title">Custom Table</strong>
+                                <strong class="card-title">Placed Orders</strong>
                             </div>
                             <div class="table-stats order-table ov-h">
                                 <table class="table ">
@@ -52,7 +52,7 @@
                                         {{#each orders}}
                                         <tr>
                                             <td class="serial"></td>
-                                            <td> {{this.date}} </td>
+                                            <td> {{isoToDate this.date}} </td>
                                             <td> <span class="name">{{this.deliveryDetails.Mobile}}</span> </td>
                                             <td> <span>{{this.deliveryDetails.BuidlingName}},{{this.deliveryDetails.State}},{{this.deliveryDetails.District}},Pincode:{{this.deliveryDetails.Pincode}}</span>
                                             </td>
@@ -80,7 +80,7 @@
                                                         <option value="delivered">delivered</option>
                                                         {{else}}
                                                          {{#if (eqPending this.status)}}                                                                                                              
-                                                        <option value="pending">pending</option>                                                       
+                                                        <option value="cancel">cancel</option>                                                       
                                                         {{/if}}
                                                         {{/if}}
                                                         {{/if}}

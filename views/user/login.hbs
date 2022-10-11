@@ -1,4 +1,4 @@
-<body>
+
 	<!-- Start Banner Area -->
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
@@ -18,7 +18,7 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="login_box_img">
-						<img class="img-fluid" src="user/img/login.jpg" alt="">
+						<img class="img-fluid" src="user/images/signup.jpg" alt="">
 						<div class="hover">
 							<h4>New to our website?</h4>
 							<a class="primary-btn" href="/signUp">Create an Account</a>
@@ -28,19 +28,22 @@
 				<div class="col-sm-6">
 					<div class="login_form_inner">
 						<h3>Log in to enter</h3>
-						<form class="row login_form" action="/login" method="post" id="contactForm">
+						<form class="row login_form" action="/login" method="post" id="userLogin" novalidate="novalidate">
 							<div class="col-md-12 form-group">
-								<input type="email" value="messi@gmail.com" class="form-control" id="email" name="email" placeholder="email"
-									onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
+								<input type="email" value="" class="form-control" id="email" name="email"
+									placeholder="email" onfocus="this.placeholder = ''"
+									onblur="this.placeholder = 'Email'" onkeyup="validateEmail()" autocomplete="off">
+									<span id="email-error" class="text-danger font-weight-bold"></span>
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="password" value="10" class="form-control" id="password" name="password"
+								<input type="password" value="" class="form-control" id="password" name="password"
 									placeholder="Password" onfocus="this.placeholder = ''"
-									onblur="this.placeholder = 'Password'">
+									onblur="this.placeholder = 'Password'" onkeyup="validatePassword()" autocomplete="off">
+									<span id="pass-error" class="text-danger font-weight-bold"></span>
 							</div>
 
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="primary-btn">Log In</button>
+								<button type="submit" value="submit" class="primary-btn" onclick="return validateForm()">Log In</button>
 
 							</div>
 						</form>
@@ -49,6 +52,8 @@
 			</div>
 		</div>
 	</section>
-	
+
 	<!--================End Login Box Area =================-->
-</body>
+
+	<script src="/javascript/user/login-Validation.js"></script>	
+	

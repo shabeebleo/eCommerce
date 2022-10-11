@@ -1,5 +1,6 @@
 <body>
-   <!-- Start Banner Area -->
+	
+	<!-- Start Banner Area -->
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
@@ -20,29 +21,46 @@
 				<div class="col-6 mx-auto ">
 					<div class="login_form_inner">
 						<h3>Create Account</h3>
-						<form class="row login_form" action="/signUp" method="post">
+						<P class="text-danger">{{signUpErr}}</P>
+						<form class="row login_form" id="userSignup"  action="/signUp" method="post" onsubmit="return validation()">
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="Username" name="username"
 									placeholder="Username" onfocus="this.placeholder = ''"
-									onblur="this.placeholder = 'Username'">
+									onblur="this.placeholder = 'Username'" autocomplete="off"
+								onkeyup="validateName()">
+								<span id="name-error" class="text-danger font-weight-bold"></span>
 							</div>
 							<div class="col-md-12 form-group">
 								<input type="email" class="form-control" id="Email" name="email" placeholder="Email"
-									onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
+									onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'"  autocomplete="off"
+								onkeyup="validateEmail()">
+								<span id="email-error" class="text-danger font-weight-bold"></span>
 							</div>
 							<div class="col-md-12 form-group">
 								<input type="tel" class="form-control" id="Phone" name="phone"
 									placeholder="Phone number" onfocus="this.placeholder = ''"
-									onblur="this.placeholder = 'Phone number'">
+									onblur="this.placeholder = 'Phone number'" autocomplete="off"
+								onkeyup="validatePhone()">
+								<span id="phone-error" class="text-danger font-weight-bold"></span>
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="password" class="form-control" id="Password" name="password"
+								<input type="password" class="form-control" id="password" name="password"
 									placeholder="Password" onfocus="this.placeholder = ''"
-									onblur="this.placeholder = 'Password'">
+									onblur="this.placeholder = 'Password'" autocomplete="off" onkeyup="validatePassword()">
+									<span id="pass-error" class="text-danger font-weight-bold"></span>
+							</div>
+							<div class="col-md-12 form-group">
+								<input type="password" class="form-control" id="ConfirmPassword" 
+									placeholder="ConfirmPassword" onfocus="this.placeholder = ''"
+									onblur="this.placeholder = 'Password'" autocomplete="off"
+								onkeyup="validateConfirm()">
+								<span id="confirmPass-error" class="text-danger font-weight-bold"></span>
 							</div>
 
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="primary-btn">Sign Up</button>
+								<button type="submit" value="submit" class="primary-btn" onclick="return validateForm()">Sign Up</button>
+								<span id="submit-error" class="text-danger font-weight-bold"></span>
+								<a href="/login">Already have account?</a>
 							</div>
 						</form>
 					</div>
@@ -51,4 +69,45 @@
 		</div>
 	</section>
 	<!--================End SignUp Box Area =================-->
+<script src="/javascript/user/signup-validation.js"></script>
+
+	<script>
+
+
+
+
+
+
+
+
+		/*$("#userSignup").validate({
+			rules: {
+				username: {
+					required: true, minlength: 3
+				},
+				email: {
+					required: true,email:true, minlength: 3
+				},
+				phone: {
+					required: true, minlength: 10
+				},
+				password: {
+					required: true, minlength: 6, maxlength: 10
+				},
+				ConfirmPassword: {
+					equalTo: "#password",required: true,minlength: 6, maxlength: 10, 
+				}
+			},
+			messages: {
+				password: {
+					required: "Password is required",
+					minlength: "Password should contain atleast 5 charecters"
+				},
+				ConfirmPassword: {
+						equalTo:"Enter the same password"
+				},
+			}
+		})*/
+	</script>
+	   
 </body>

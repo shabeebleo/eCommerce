@@ -6,15 +6,12 @@
                 <li class="active">
                     <a href="/admin/adminHome"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
                 </li>
-                <li class="menu-title">UI elements</li><!-- /.menu-title -->
-
-
-
+            
                 {{!-- .................................Users........................... --}}
 
                 <li class="menu-title">Users</li><!-- /.menu-title -->
                 <li>
-                    <a href="/admin/users"> <i class="menu-icon ti-email"></i>Users List</a>
+                    <a href="/admin/users"> <i class="menu-icon ti-user"></i>Users List</a>
                 </li>
                 {{!-- ..................................Users........................... --}}
 
@@ -26,9 +23,9 @@
 
                 <li class="menu-title">Orders</li><!-- /.menu-title -->
                 <li>
-                    <a href="/admin/orders"> <i class="menu-icon ti-email"></i>View Orders</a>
+                    <a href="/admin/orders"> <i class="menu-icon ti-book"></i>View Orders</a>
                 <li>
-                    <a href="/admin/orderList"> <i class="menu-icon ti-email"></i>View Placed Orders</a>
+                    <a href="/admin/orderList"> <i class="menu-icon ti-timer"></i>View Placed Orders</a>
                 </li>
                 </li>
                 {{!-- .................................Orders........................... --}}
@@ -41,13 +38,13 @@
 
                 <li class="menu-title">Products</li><!-- /.menu-title -->
                 <li>
-                    <a href="/admin/viewProducts"> <i class="menu-icon ti-email"></i>View Products</a>
+                    <a href="/admin/viewProducts"> <i class="menu-icon ti-package"></i>View Products</a>
                 </li>
                 <li>
-                    <a href="/admin/addProduct"> <i class="menu-icon ti-email"></i>Add Products</a>
+                    <a href="/admin/addProduct"> <i class="menu-icon ti-support"></i>Add Products</a>
                 </li>
                 <li>
-                    <a href="/admin/categories"> <i class="menu-icon ti-email"></i>Categories</a>
+                    <a href="/admin/categories"> <i class="menu-icon ti-server"></i>Categories</a>
                 </li>
 
                 {{!-- .................................Products........................... --}}
@@ -57,7 +54,7 @@
 
                 <li class="menu-title">Coupons</li><!-- /.menu-title -->
                 <li>
-                    <a href="/admin/coupons"> <i class="menu-icon ti-email"></i>Coupons </a>
+                    <a href="/admin/coupons"> <i class="menu-icon ti-gift"></i>Coupons </a>
 
                 {{!-- .................................coupons........................... --}}
 
@@ -79,7 +76,7 @@
     <header id="header" class="header">
         <div class="top-left">
             <div class="navbar-header">
-                <a class="navbar-brand" href="./"><img src="/admin/images/logo.png" alt="Logo"></a>
+                <a class="navbar-brand" href="./"><img src="/user/img/logo.png" style="height: 40px;" alt="Logo"></a>
                 <a class="navbar-brand hidden" href="./"><img src="/admin/images/logo2.png" alt="Logo"></a>
                 <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
             </div>
@@ -103,13 +100,12 @@
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="/admin/images/admin.jpg" alt="User Avatar">
+                            <img class="user-avatar rounded-circle" src="/admin/images/logprof.jpg" alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
-
-                            <a class="nav-link" href="/admin"><i class="fa fa-power -off"></i>Logout</a>
+                           
+                            <a class="nav-link" href="/admin/logout"><i class="fa fa-power -off"></i>Logout</a>
                         </div>
                     </div>
 

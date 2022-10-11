@@ -37,8 +37,12 @@
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                                 <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-                             <a  href="/orders" class="mb-0 btn btn-secondary">View orders</a>
-                               
+                                <button class="mb-0 btn btn-info" data-toggle="modal" data-target="#changePassword">Edit
+                                    Password</button>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                                <a href="/orders" class="mb-0 btn btn-secondary">View orders</a>
                             </li>
                         </ul>
                     </div>
@@ -145,8 +149,43 @@
     </div>
 
 
+    <!-- Modal edit Password -->
+    <div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/changePassword/{{userDetails._id}}" method="post">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Current Password</label>
+                            <input type="password" name="currentPassword" value="" class="form-control"
+                                id="formGroupExampleInput" placeholder="password">
+                            <label for="formGroupExampleInput">New Password</label>
+                            <input type="password" name="newPassword" value="" class="form-control"
+                                id="formGroupExampleInput" placeholder="password">
+                            <label for="formGroupExampleInput">Confirm Password</label>
+                            <input type="password" name="confirmPassword" value="" class="form-control"
+                                id="formGroupExampleInput" placeholder="password">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <!-- Modal add address -->
+
     <div class="modal fade" id="addAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -158,7 +197,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/addAddress/{{userDetails._id}}" method="post">
+                    <form action="/addAddress/{{userDetails._id}}" id="add_Address" method="post">
                         <div class="form-group">
                             <label for="formGroupExampleInput">Name</label>
                             <input type="text" name="name" value="" class="form-control" id="formGroupExampleInput"
@@ -196,7 +235,7 @@
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput">Pincode</label>
-                            <input type="number" name="pincode" value="" class="form-control" id="formGroupExampleInput"
+                            <input type="text" name="pincode" value="" class="form-control" id="formGroupExampleInput"
                                 placeholder="Pincode ">
                         </div>
 
@@ -280,12 +319,6 @@
 
     <script>
 
-
-
-
-
-
-
         function deleteAddress(userId, addressId) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -362,7 +395,40 @@
             })
         })
 
+            $("#add_Address").validate({
+                rules: {
+                    name: {
+                        required: true, minlength: 3
+                    },
+                    phone: {
+                        required: true, minlength: 10
+                    },
+                    building_Name: {
+                        required: true, minlength: 3
+                    },
+                    street_name: {
+                        required: true, minlength: 3
+                    },
+                    city: {
+                        required: true, minlength: 3
+                    },
+                    district: {
+                        required: true, minlength: 3
+                    },
+                    state: {
+                        required: true, minlength: 3
+                    },
+                    pincode: {
+                        required: true, minlength: 6
+                    }
+                }
+            })
+      
+
+
+
+
 
     </script>
-
+    
 </section>

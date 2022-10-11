@@ -30,7 +30,7 @@
                     <div class="">
                         <div class="card">
                             <div class="card-header">
-                                <strong class="card-title">Custom Table</strong>
+                                <strong class="card-title">User Details</strong>
                             </div>
                             <div class="table-stats order-table ov-h">
                                 <table class="table ">
@@ -40,9 +40,7 @@
                                             <th>User ID</th>
                                             <th>Customer Name </th>
                                             <th>Email</th>
-                                            <th>PhoneNumber</th>
-
-                                            <th>Address</th>
+                                            <th>PhoneNumber</th>                                         
                                             <th>Block</th>
 
                                         </tr>
@@ -50,18 +48,18 @@
                                     <tbody>
                                         {{#each users}}
                                         <tr>
-                                            <td class="serial">1.</td>
+                                            <td class="serial">{{inc @index}}</td>
                                             <td>{{this._id}}</td>
                                             <td> <span class="product">{{this.username}}</span> </td>
                                             <td> <span class="name">{{this.email}}</span> </td>
                                             <td> <span class="name">{{this.phone}}</span> </td>
-                                            <td> <span class="name">{{this.address}}</span> </td>
+                                           
                                             <td>
                                                 {{#if this.Active}}
                                                 <a href="/admin/blockUser/{{this._id}}" class="btn btn-danger"
                                                     onclick="return confirm('Are you want block {{ this.username}}')">Block</a>
                                                 {{else}}
-                                                <a href="/admin/unblockUser/{{this._id}}" class="btn btn-success"
+                                                <a href="/admin/unblockUser/{{this._id}}" class="btn btn-success btn-sm"
                                                     onclick="return confirm('Are you want Unblock {{ this.username}}')">Unblock</a>
                                                 {{/if}}
                                             </td>

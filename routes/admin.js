@@ -22,66 +22,92 @@ const uploads = multer({
   storage
 });
 
+/* For Admin Session  */
+const verifyAdmin = ((req, res, next) => {
+  if (req.session.admin) {
+    next()
+  } else {
+    res.redirect('/admin')
+  }
+})
+
+const verifyLogout = ((req, res, next) => {
+  if (req.session.admin) {
+    res.redirect('/admin/adminHome')
+    
+  } else {
+    next()  
+  }
+})
+
+
 // ..............loginpage.........//
-router.get('/',adminController.getLoginpage)
+router.get('/',verifyLogout,adminController.getLoginpage)
 
 // .......admin Login...........//
 router.post('/',adminController.postLoginpage)
 
 // ..............homepage.........//
-router.get('/adminHome',adminController.getAdminHome);
-router.post('/total-revenue',adminController.TotalRevenueGraph)
-router.post('/onlineCod',adminController.TotalRevenuePie)
-router.post('/monthlySales',adminController.monthlySalesLineChart)
+router.get('/adminHome',verifyAdmin,adminController.getAdminHome);
+router.post('/total-revenue',verifyAdmin,adminController.TotalRevenueGraph)
+router.post('/onlineCod',verifyAdmin,adminController.TotalRevenuePie)
+router.post('/monthlySales',verifyAdmin,adminController.monthlySalesLineChart)
+router.post('/catSales',verifyAdmin,adminController.catSalesDonut)
 
 // ..............order........//
-router.get('/orders',adminController.getOrders)
-router.get('/viewOrderedProducts/:id',adminController.getOrderedProducts)
-router.get('/orderList',adminController.getPlacedOrders)
-router.post('/delivery-changeStatus',adminController.changeOrderStatus)
-// router.get('/orderList',adminController.getPlacedOrderedProducts)
+router.get('/orders',verifyAdmin,adminController.getOrders)
+router.get('/viewOrderedProducts/:id',verifyAdmin,adminController.getOrderedProducts)
+router.get('/orderList',verifyAdmin,adminController.getPlacedOrders)
+router.post('/delivery-changeStatus',verifyAdmin,adminController.changeOrderStatus)
+
 
 //.................coupons..........//
-router.get('/coupons',adminController.getCoupons)
-router.post('/coupons',adminController.postCoupons)
-router.get('/deleteCoupons/:id',adminController.delcoupon)
+router.get('/coupons',verifyAdmin,adminController.getCoupons)
+router.post('/coupons',verifyAdmin,adminController.postCoupons)
+router.get('/deleteCoupons/:id',verifyAdmin,adminController.delcoupon)
 
 
 // ..............user list .........//
-router.get('/users',adminController.getUsers)
+router.get('/users',verifyAdmin,adminController.getUsers)
 
 // ........blockUser.........//
-router.get('/blockUser/:id',adminController.getBlockUser)
+router.get('/blockUser/:id',verifyAdmin,adminController.getBlockUser)
 
 // ........unblockUser.........//
-router.get('/unblockUser/:id', adminController.getUnblockUser)
+router.get('/unblockUser/:id', verifyAdmin,adminController.getUnblockUser)
 
 // .......addProducts ...........//
-router.get('/addProduct',adminController.getAddProduct )
-router.post('/addProduct', uploads.array("image", 3), adminController.postAddProduct)
+router.get('/addProduct',verifyAdmin,adminController.getAddProduct )
+router.post('/addProduct', uploads.array("image", 3), verifyAdmin,adminController.postAddProduct)
 
 // ..............view products.........//
-router.get('/viewProducts', adminController.getViewProducts)
+router.get('/viewProducts', verifyAdmin,adminController.getViewProducts)
 
 // ..............Delete products.........//
-router.get('/DeleteProduct/:id', adminController.getDeleteProduct)
+router.get('/DeleteProduct/:id', verifyAdmin,adminController.getDeleteProduct)
 
 // ..............edit products.........//
-router.get('/editProduct/:id', adminController.getEditProduct)
-router.post('/editProduct/:id',uploads.array('image',3),adminController.postEditProduct)
+router.get('/editProduct/:id', verifyAdmin,adminController.getEditProduct)
+router.post('/editProduct/:id',verifyAdmin,uploads.array('image',3),adminController.postEditProduct)
 
 
 // ..............category.........//
-router.get('/categories', adminController.getCategories)
-router.post('/categories', adminController.postCategories)
-router.get('/deleteCategory/:id',adminController.getDeleteCategory)
+router.get('/categories',verifyAdmin, adminController.getCategories)
+router.post('/categories',verifyAdmin, adminController.postCategories)
 
 
+/* For Logout */
+router.get('/logout', adminController.logout)
 
 
+/* For Admin Error Page */
+router.use(function (req, res, next) {
+  next(createError(404));
+});
 
-
-
-
+router.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('admin/admin-error', { layout: 'admin-layout' });
+})
 
 module.exports = router;
