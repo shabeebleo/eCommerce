@@ -542,41 +542,41 @@ module.exports = {
     //     })
     // },
 
-    getOverAllSale: () => {
-        return new Promise(async (resolve, reject) => {
-            try {
+    // getOverAllSale: () => {
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
              
-                let today = new Date()
-                let before = new Date(new Date().getTime() - (100 * 24 * 60 * 60 * 1000))
-                let getOverAllSale = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
-                    {
-                        $match: {
-                            status: 'delivered',
-                            date: {
-                                $gte: before,
-                                $lte: today
-                            }
-                        }
-                    },
-                    {
-                        $project: {
-                            GrandTotal: 1
-                        }
-                    },
-                    {
-                        $group: {
-                            _id: null,
-                            sum: { $sum: "$GrandTotal" }
-                        }
-                    }
-                ]).toArray()
-                resolve(getOverAllSale[0].sum)
+    //             let today = new Date()
+    //             let before = new Date(new Date().getTime() - (100 * 24 * 60 * 60 * 1000))
+    //             let getOverAllSale = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+    //                 {
+    //                     $match: {
+    //                         status: 'delivered',
+    //                         date: {
+    //                             $gte: before,
+    //                             $lte: today
+    //                         }
+    //                     }
+    //                 },
+    //                 {
+    //                     $project: {
+    //                         GrandTotal: 1
+    //                     }
+    //                 },
+    //                 {
+    //                     $group: {
+    //                         _id: null,
+    //                         sum: { $sum: "$GrandTotal" }
+    //                     }
+    //                 }
+    //             ]).toArray()
+    //             resolve(getOverAllSale[0].sum)
 
-            } catch (error) {
-                reject(error)
-            }
-        })
-    },
+    //         } catch (error) {
+    //             reject(error)
+    //         }
+    //     })
+    // },
 
     // getAllSales: () => {
     //     return new Promise(async (resolve, reject) => {
