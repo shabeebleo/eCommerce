@@ -1,0 +1,119 @@
+ function catRevenues() {
+                $.ajax({
+                    url: "/admin/catSales",
+                    method: "post",
+                    success: (response) => {
+                        var piedata = [
+                            { label: "Men ", data: [[1, response[0]]], color: '#5c6bc0' },
+                            { label: "Women ", data: [[1, response[1]]], color: '#ef5350' },
+                            { label: "Kids", data: [[1, response[2]]], color: '#66bb6a' },
+                            { label: "Unisex ", data: [[1, response[3]]], color: '#32a852' }
+                        ];
+                        $.plot('#flotPie1', piedata, {
+                            series: {
+                                pie: {
+                                    show: true,
+                                    radius: 1,
+                                    innerRadius: 0.65,
+                                    label: {
+                                        show: true,
+                                        radius: 2 / 3,
+                                        threshold: 1
+                                    },
+                                    stroke: {
+                                        width: 0
+                                    }
+                                }
+                            },
+                            grid: {
+                                hoverable: true,
+                                clickable: true
+                            }
+                        });
+                    }
+                })
+            }
+            catRevenues()
+
+
+
+
+function monthlySales() {
+                $.ajax({
+                    url: '/admin/monthlySales',
+                    method: 'post',
+                    success: (response) => {
+                        var obj = response
+
+                        var plot = $.plot($('#flotLine5'), [{
+                            data: obj,
+                            label: 'New Data Flow',
+                            color: '#fff'
+                        }],
+                            {
+                                series: {
+                                    lines: {
+                                        show: true,
+                                        lineColor: '#fff',
+                                        lineWidth: 2
+                                    },
+                                    points: {
+                                        show: true,
+                                        fill: true,
+                                        fillColor: "#ffffff",
+                                        symbol: "circle",
+                                        radius: 3
+                                    },
+                                    shadowSize: 0
+                                },
+                                points: {
+                                    show: true,
+                                },
+                                legend: {
+                                    show: false
+                                },
+                                grid: {
+                                    show: false
+                                }
+                            });
+                    }
+                })
+            }
+            monthlySales()
+
+
+
+
+
+
+
+  function onlineCod() {
+                $.ajax({
+                    url: '/admin/onlineCod',
+                    method: 'post',
+                    success: (response) => {
+                        var cellPaiChart = [
+                            { label: "COD", data: [response.cod], color: '#5b83de' },
+                            { label: "Online", data: [response.online], color: '#00bfa5' }
+                        ];
+                        $.plot('#cellPaiChart', cellPaiChart, {
+                            series: {
+                                pie: {
+                                    show: true,
+                                    stroke: {
+                                        width: 0
+                                    }
+                                }
+                            },
+                            legend: {
+                                show: false
+                            }, grid: {
+                                hoverable: true,
+                                clickable: true
+                            }
+
+                        });
+                    }
+                })
+            }
+            onlineCod()

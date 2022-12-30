@@ -106,7 +106,7 @@ module.exports = {
   },
 
   postLogin: async function (req, res, next) {
-
+console.log(req.body,"gigigigig")
     userHelpers.doLogin(req.body).then((response) => {
       if (response.status) {
         req.session.loggedIn = true

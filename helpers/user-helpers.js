@@ -269,6 +269,7 @@ module.exports = {
 
 
     postaddAddress: (userId, address) => {
+        console.log(address,"addressaddressaddressaddress   ");
         create_random_id(15)
         function create_random_id(string_length) {
             var randomString = '';
@@ -787,7 +788,7 @@ module.exports = {
                         StreetName: order.Street_Name,
                         BuidlingName: order.Buidling_Name
 
-                    },
+                    },                   
                     userId: objectId(order.userId),
                     Paymentmethod: order['Payment-method'],
                     products: products,
@@ -807,6 +808,7 @@ module.exports = {
                         db.get().collection(collections.COUPON_COLLECTION).updateOne({ coupon: couponName }, { $set: { users } })
                     }
                 }
+                
                 db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
 
                     db.get().collection(collections.CART_COLLECTION).deleteOne({ user: objectId(order.userId) })
